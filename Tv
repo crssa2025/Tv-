@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>بث مباشر: ريال مدريد × مانشستر سيتي</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js"></script>
+
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        /* شريط الحقوق العلوي */
+        .header-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 999;
+            border-bottom: 2px solid #00bfff;
+            pointer-events: none; /* لضمان عدم إعاقة النقر على المشغل */
+        }
+
+        .brand-name {
+            color: #fff;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .brand-name span {
+            color: #00bfff; /* لون مميز للهاشتاق */
+        }
+
+        .match-info {
+            color: #fff;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+
+        #dplayer {
+            width: 100%;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-overlay">
+        <div class="brand-name">عبود <span>#هاشتاق_شاهد</span></div>
+        <div class="match-info">ريال مدريد VS مانشستر سيتي</div>
+    </div>
+
+    <div id="dplayer"></div>
+
+    <script>
+        // رابط البث الجديد الذي أرفقته
+        const streamUrl = 'http://wjk30.tutor3.site/live/51838_.m3u8?session=fgXV65Um2lfy1XM-PnwCNI6JKBGv-7c8uR6nyqvK0yPD6645oYewQjFQ6kFRCCFO8v9weMjgiE5rg7pCM4ODC3gY8vmYU53y&location=local';
+
+        const dp = new DPlayer({
+            container: document.getElementById('dplayer'),
+            live: true,
+            autoplay: true,
+            video: {
+                url: streamUrl,
+                type: 'hls'
+            },
+            theme: '#00bfff',
+            lang: 'ar' // دعم اللغة العربية في واجهة المشغل
+        });
+
+        // محاولة تشغيل الصوت تلقائياً
+        dp.on('canplay', function () {
+            dp.play();
+        });
+    </script>
+
+</body>
+</html>
