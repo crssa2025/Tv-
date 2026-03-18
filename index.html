@@ -3,162 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>نظام الرسائل المجهولة | Trend 2026</title>
+    <title>بث مباشر للمباريات</title>
     
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://vjs.zencdn.net/8.3.0/video-js.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 
     <style>
-        :root { --primary: #6c63ff; --bg: #f0f2f5; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); display: flex; justify-content: center; padding: 20px; margin: 0; direction: rtl; }
-        .app-card { background: white; width: 100%; max-width: 450px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: hidden; }
-        .tabs { display: flex; background: #eee; }
-        .tabs button { flex: 1; padding: 15px; border: none; cursor: pointer; font-weight: bold; background: #eee; transition: 0.3s; }
-        .tabs button.active { background: white; color: var(--primary); border-bottom: 3px solid var(--primary); }
-        .content { padding: 25px; display: none; }
-        .content.active { display: block; }
-        input, textarea, select { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; font-size: 16px; outline: none; }
-        input:focus { border-color: var(--primary); }
-        .btn { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 10px; width: 100%; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 10px; }
-        .btn:hover { opacity: 0.9; }
-        .msg-box { background: #f8f9fa; padding: 15px; border-radius: 12px; margin-bottom: 10px; border-right: 5px solid var(--primary); position: relative; }
-        .user-item { background: #fff; padding: 10px; border: 1px solid #eee; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        code { background: #333; color: #00ff00; padding: 2px 6px; border-radius: 4px; font-size: 13px; }
+        body {
+            background-color: #0f172a;
+            color: white;
+            font-family: 'Cairo', sans-serif;
+        }
+        .navbar {
+            background-color: #1e293b;
+            border-bottom: 2px solid #38bdf8;
+        }
+        .video-container {
+            max-width: 900px;
+            margin: 40px auto;
+            background: #1e293b;
+            padding: 15px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .video-js {
+            width: 100%;
+            height: 500px;
+            border-radius: 10px;
+        }
+        .status-badge {
+            background: #ef4444;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
     </style>
 </head>
 <body>
 
-<div class="app-card">
-    <div class="tabs">
-        <button id="t1" class="active" onclick="showTab('send-page', this)">إرسال</button>
-        <button id="t2" onclick="showTab('inbox-page', this)">صندوقي</button>
-        <button id="t3" onclick="showTab('admin-page', this)">التحكم</button>
-    </div>
-
-    <div id="send-page" class="content active">
-        <h3 style="text-align: center;">أرسل رسالة سرية ✨</h3>
-        <select id="userSelect"><option value="">جاري تحميل القائمة...</option></select>
-        <textarea id="messageText" rows="4" placeholder="اكتب رسالتك بكل صراحة..."></textarea>
-        <button class="btn" onclick="sendAnonymousMessage()">إرسال الرسالة</button>
-    </div>
-
-    <div id="inbox-page" class="content">
-        <h3>رسائلي الواردة 📥</h3>
-        <input type="text" id="myCode" placeholder="أدخل الكود الخاص بك">
-        <button class="btn" onclick="getInbox()">فتح الصندوق</button>
-        <div id="messagesList" style="margin-top: 20px;"></div>
-    </div>
-
-    <div id="admin-page" class="content">
-        <div id="adminAuth">
-            <h3>دخول المسؤول 🔐</h3>
-            <input type="password" id="adminPass" placeholder="رمز الدخول (112233)">
-            <button class="btn" onclick="adminLogin()">دخول</button>
+    <nav class="navbar navbar-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="#">
+                <span style="color: #38bdf8;">LIVE</span> SPORTS
+            </a>
+            <span class="status-badge">بث مباشر الآن</span>
         </div>
-        <div id="adminTools" style="display:none;">
-            <h4>إضافة شخص جديد</h4>
-            <input type="text" id="userName" placeholder="اسم الشخص">
-            <input type="text" id="userCode" placeholder="حدد كود خاص له">
-            <button class="btn" style="background: #28a745;" onclick="addUserToSystem()">إضافة للمنظومة</button>
-            <hr>
-            <h4>المسجلين وأكوادهم:</h4>
-            <div id="registeredUsers"></div>
+    </nav>
+
+    <div class="container">
+        <div class="video-container">
+            <h3 class="mb-4 text-center">مشاهدة المباراة بجودة عالية</h3>
+            
+            <video id="my-video" class="video-js vjs-big-play-centered vjs-theme-city" controls preload="auto" data-setup='{}'>
+                <source src="http://wjk30.tutor3.site/live/906544_.m3u8?session=Fsfuteq0yrUbEy-g_gNALVHW06VoIZ4TkpWPhrWff6ULy1a48_1H9OJMRQShLLbipEe2pb2bIZR3cr8V5G7GlxUT9URC7or1&location=local" type="application/x-mpegURL">
+                <p class="vjs-no-js">
+                    للمشاهدة، يرجى تفعيل جافا سكريبت وتحديث المتصفح.
+                </p>
+            </video>
+
+            <div class="mt-4 p-3 border-top border-secondary">
+                <h5>تفاصيل البث:</h5>
+                <p class="text-secondary small">إذا توقف البث، قم بتحديث الصفحة. هذا المشغل يدعم تقنية HLS لضمان استقرار الإشارة.</p>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-    // بيانات الفايربيس المأخوذة من صورتك
-    const firebaseConfig = {
-        apiKey: "AIzaSyDQNBVlnjrCCi1-ikf7bRpZo0uYUvDJ3Q4",
-        authDomain: "trend2026-564ab.firebaseapp.com",
-        databaseURL: "https://trend2026-564ab-default-rtdb.firebaseio.com",
-        projectId: "trend2026-564ab",
-        storageBucket: "trend2026-564ab.firebasestorage.app",
-        messagingSenderId: "676459538678",
-        appId: "1:676459538678:web:26d3ee396c4b678909e4d7"
-    };
-
-    // تهيئة فايربيس
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
-
-    // تبديل التبويبات
-    function showTab(tabId, btn) {
-        document.querySelectorAll('.content').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.tabs button').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        btn.classList.add('active');
-    }
-
-    // جلب المستخدمين باستمرار
-    db.ref('users_list').on('value', (snapshot) => {
-        const select = document.getElementById('userSelect');
-        const adminList = document.getElementById('registeredUsers');
-        select.innerHTML = '<option value="">-- اختر الشخص --</option>';
-        adminList.innerHTML = '';
-
-        snapshot.forEach((child) => {
-            const user = child.val();
-            select.innerHTML += `<option value="${user.code}">${user.name}</option>`;
-            adminList.innerHTML += `<div class="user-item"><span>${user.name}</span> <code>${user.code}</code></div>`;
-        });
-    });
-
-    // إرسال رسالة
-    function sendAnonymousMessage() {
-        const code = document.getElementById('userSelect').value;
-        const msg = document.getElementById('messageText').value;
-        if(!code || !msg) return alert("يرجى اختيار شخص وكتابة رسالة");
-
-        db.ref('messages/' + code).push({
-            content: msg,
-            date: new Date().toLocaleString('ar-EG')
-        }).then(() => {
-            alert("✅ تم إرسال رسالتك بنجاح!");
-            document.getElementById('messageText').value = "";
-        });
-    }
-
-    // عرض الرسائل
-    function getInbox() {
-        const code = document.getElementById('myCode').value;
-        if(!code) return alert("أدخل الكود الخاص بك");
-
-        db.ref('messages/' + code).on('value', (snapshot) => {
-            const list = document.getElementById('messagesList');
-            list.innerHTML = "";
-            if(!snapshot.exists()) {
-                list.innerHTML = "<p style='text-align:center'>لا توجد رسائل واصلة بعد.</p>";
-                return;
-            }
-            snapshot.forEach((child) => {
-                const data = child.val();
-                list.innerHTML += `<div class="msg-box">${data.content}<br><small style="color:#888">${data.date}</small></div>`;
-            });
-        });
-    }
-
-    // الإدارة
-    function adminLogin() {
-        if(document.getElementById('adminPass').value === "112233") {
-            document.getElementById('adminAuth').style.display = "none";
-            document.getElementById('adminTools').style.display = "block";
-        } else { alert("الرمز خطأ!"); }
-    }
-
-    function addUserToSystem() {
-        const n = document.getElementById('userName').value;
-        const c = document.getElementById('userCode').value;
-        if(!n || !c) return alert("املأ الحقول");
-
-        db.ref('users_list').push({ name: n, code: c }).then(() => {
-            alert("تمت الإضافة بنجاح!");
-            document.getElementById('userName').value = "";
-            document.getElementById('userCode').value = "";
-        }).catch(err => alert("خطأ: " + err.message));
-    }
-</script>
-
+    <script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
