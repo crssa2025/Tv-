@@ -3,221 +3,169 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بث عبود الرسمي | أسود الرافدين</title>
+    <title>بث عبود - المشغل الرسمي</title>
     
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        :root {
-            --main-red: #ff004c;
-            --glass: rgba(255, 255, 255, 0.1);
-            --bg: #08080a;
-        }
-
         body {
-            background-color: var(--bg);
-            background-image: 
-                radial-gradient(at 0% 0%, rgba(255, 0, 76, 0.15) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(0, 210, 255, 0.1) 0px, transparent 50%);
-            color: #fff;
+            background-color: #0b0e11;
+            color: #ffffff;
             font-family: 'Cairo', sans-serif;
             margin: 0;
             padding: 0;
-            overflow-x: hidden;
-        }
-
-        /* الهيدر الجديد */
-        .header {
-            padding: 20px 5%;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--glass);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
         }
 
-        .brand {
-            font-size: 1.6rem;
-            font-weight: 900;
-            letter-spacing: 1px;
-            color: #fff;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+        /* هيدر باسم عبود */
+        .header {
+            width: 100%;
+            padding: 15px 0;
+            background: #161b22;
+            text-align: center;
+            border-bottom: 2px solid #30363d;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
 
-        .brand span { color: var(--main-red); }
+        .header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: #58a6ff;
+        }
 
         .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 0 15px;
+            width: 95%;
+            max-width: 900px;
+            margin-top: 25px;
         }
 
-        /* المشغل الاحترافي */
-        .video-container {
-            position: relative;
+        /* حاوية المشغل */
+        .video-box {
             background: #000;
-            border-radius: 24px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9);
-            border: 1px solid var(--glass);
+            border: 1px solid #30363d;
         }
 
+        /* مشغل جوجل كروم الافتراضي */
         video {
             width: 100%;
             display: block;
-            aspect-ratio: 16 / 9;
-            cursor: pointer;
+            outline: none;
         }
 
-        /* شريط المعلومات المتحرك */
-        .stats-overlay {
+        /* شريط المعلومات */
+        .info-panel {
+            background: #161b22;
+            padding: 15px;
+            border-radius: 0 0 12px 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
-            background: linear-gradient(to bottom, transparent, rgba(0,0,0,0.9));
         }
 
-        .live-tag {
-            background: var(--main-red);
-            padding: 5px 15px;
-            border-radius: 8px;
+        .live-indicator {
+            color: #ff4500;
             font-weight: bold;
-            font-size: 14px;
             display: flex;
             align-items: center;
             gap: 8px;
-            animation: blink 1.5s infinite;
         }
 
-        .viewers-count {
-            background: rgba(255,255,255,0.08);
-            padding: 8px 18px;
-            border-radius: 12px;
+        .live-dot {
+            width: 10px;
+            height: 10px;
+            background: #ff4500;
+            border-radius: 50%;
+            animation: pulse 1s infinite;
+        }
+
+        .viewers {
             font-size: 1.1rem;
-            border: 1px solid var(--glass);
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            color: #c9d1d9;
         }
 
-        .viewers-count i { color: #00ff88; }
-
-        /* تفاصيل المباراة */
-        .match-details {
-            margin-top: 30px;
-            background: var(--glass);
-            padding: 25px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--glass);
+        #count {
+            color: #3fb950;
+            font-weight: bold;
         }
 
-        .team-box {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 15px;
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
         }
 
-        .vs {
-            font-weight: 900;
-            font-size: 1.2rem;
-            color: var(--main-red);
-        }
-
-        @keyframes blink {
-            50% { opacity: 0.6; }
-        }
-
-        @media (max-width: 600px) {
-            .brand { font-size: 1.2rem; }
-            .match-details h2 { font-size: 1.1rem; }
+        .footer-text {
+            margin-top: 20px;
+            color: #8b949e;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
-<header class="header">
-    <div class="brand">عبود <span>LIVE</span> <i class="fa-solid fa-bolt"></i></div>
-    <div class="viewers-count">
-        <i class="fa-solid fa-users"></i>
-        <span id="fake-count">220,145</span>
-    </div>
-</header>
-
-<div class="container">
-    <div class="video-container">
-        <video id="video" controls autoplay playsinline poster="https://p0.pxfuel.com/preview/44/104/187/stadium-football-arena-pitch.jpg"></video>
-        
-        <div class="stats-overlay">
-            <div class="live-tag">
-                <i class="fa-solid fa-circle"></i> مباشر الآن
-            </div>
-            <div style="font-size: 0.9rem; color: #ccc;">سيرفر 1 - فائق السرعة ⚡</div>
-        </div>
-    </div>
-
-    <div class="match-details">
-        <div class="team-box">
-            <span style="font-size: 1.5rem;">🇮🇶 العراق</span>
-            <span class="vs">VS</span>
-            <span style="font-size: 1.5rem;">بوليفيا 🇧🇴</span>
-        </div>
-        <p style="text-align: center; color: #aaa; margin: 0;">
-            بث مباشر بجودة عالية وبدون تقطيع - مباراة ودية دولية
-        </p>
-    </div>
-
-    <p style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: #555;">
-        تمت البرمجة بواسطة عبود لضمان أفضل تجربة مشاهدة 2026
-    </p>
+<div class="header">
+    <h1>بث عبود LIVE 🇮🇶</h1>
 </div>
 
+<div class="container">
+    <div class="video-box">
+        <video id="my-video" controls autoplay playsinline>
+            <source src="http://xcmin32.acmst.it.com/live/594040_.m3u8?session=OgpDfT7ks71D7hGDb2IqBStrT9--XPCwFsIuT9lXMrvh3ILIpkxZlbxuPto9ZRJXnVcEl4OHZWUiFhVwoWw6d0NNU-EN7yCE&location=local" type="application/x-mpegURL">
+            متصفحك لا يدعم مشغل الفيديو الافتراضي.
+        </video>
+    </div>
+
+    <div class="info-panel">
+        <div class="live-indicator">
+            <div class="live-dot"></div>
+            مباشر الآن
+        </div>
+        <div class="viewers">
+            <i class="fa-solid fa-eye"></i> المشاهدون: <span id="count">220,500</span>
+        </div>
+    </div>
+
+    <div style="margin-top: 15px; text-align: right;">
+        <h3 style="margin: 5px 0;">مباراة العراق ضد بوليفيا</h3>
+        <p style="color: #8b949e; font-size: 0.9rem;">بث مباشر بجودة عالية - تقديم عبود</p>
+    </div>
+</div>
+
+<div class="footer-text">
+    جميع الحقوق محفوظة للمطور عبود &copy; 2026
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script>
-    var video = document.getElementById('video');
+    var video = document.getElementById('my-video');
     var videoSrc = 'http://xcmin32.acmst.it.com/live/594040_.m3u8?session=OgpDfT7ks71D7hGDb2IqBStrT9--XPCwFsIuT9lXMrvh3ILIpkxZlbxuPto9ZRJXnVcEl4OHZWUiFhVwoWw6d0NNU-EN7yCE&location=local';
 
-    // التأكد من دعم المتصفح لـ HLS
     if (Hls.isSupported()) {
         var hls = new Hls();
         hls.loadSource(videoSrc);
         hls.attachMedia(video);
-        hls.on(Hls.Events.MANIFEST_PARSED, function() {
-            video.play();
-        });
-    } 
-    // دعم متصفحات Safari و iOS التي تدعم HLS برمجياً بدون مكتبة
-    else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
         video.src = videoSrc;
-        video.addEventListener('loadedmetadata', function() {
-            video.play();
-        });
     }
 
-    // عداد عبود الذكي (200k - 250k)
-    function updateCounter() {
-        const countElement = document.getElementById('fake-count');
-        let current = parseInt(countElement.innerText.replace(/,/g, ''));
-        
-        // تغيير عشوائي واقعي
-        let change = Math.floor(Math.random() * 600) - 250;
-        let next = current + change;
+    // عداد المشاهدين الوهمي (200k - 250k)
+    function randomViewers() {
+        let current = parseInt(document.getElementById('count').innerText.replace(/,/g, ''));
+        let change = Math.floor(Math.random() * 800) - 300; 
+        let newVal = current + change;
 
-        if (next < 200000) next += 2000;
-        if (next > 250000) next -= 2000;
+        if (newVal < 200000) newVal = 210000;
+        if (newVal > 250000) newVal = 245000;
 
-        countElement.innerText = next.toLocaleString();
+        document.getElementById('count').innerText = newVal.toLocaleString();
     }
 
-    setInterval(updateCounter, 2500);
+    setInterval(randomViewers, 3000);
 </script>
 
 </body>
