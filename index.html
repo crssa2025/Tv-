@@ -3,79 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بث مباشر للمباريات</title>
+    <title>بث عبود - مباراة العراق وبوليفيا</title>
     
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://vjs.zencdn.net/8.3.0/video-js.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
+        :root {
+            --primary-color: #e91e63;
+            --accent-color: #00f2fe;
+            --bg-dark: #050505;
+        }
+
         body {
-            background-color: #0f172a;
-            color: white;
+            background: radial-gradient(circle at top, #1a1a2e 0%, var(--bg-dark) 100%);
+            color: #fff;
             font-family: 'Cairo', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
         }
+
+        /* الهيدر الاحترافي باسمك */
         .navbar {
-            background-color: #1e293b;
-            border-bottom: 2px solid #38bdf8;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        .video-container {
-            max-width: 900px;
-            margin: 40px auto;
-            background: #1e293b;
-            padding: 15px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(to right, #fff, var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
         }
-        .video-js {
-            width: 100%;
-            height: 500px;
-            border-radius: 10px;
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 15px;
         }
-        .status-badge {
-            background: #ef4444;
-            padding: 5px 15px;
+
+        /* منطقة الفيديو المتطورة */
+        .player-card {
+            background: #000;
             border-radius: 20px;
-            font-size: 0.9rem;
-            animation: pulse 2s infinite;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        @keyframes pulse {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+
+        .video-wrapper {
+            position: relative;
+            padding-top: 56.25%;
+        }
+
+        .video-js {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* شريط التفاعل */
+        .status-bar {
+            background: #111;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .match-info h2 {
+            margin: 0;
+            font-size: 1.4rem;
+            color: var(--accent-color);
+        }
+
+        .live-stats {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .badge {
+            background: #ff0000;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            box-shadow: 0 0 15px rgba(255,0,0,0.5);
+        }
+
+        .viewers-box {
+            background: rgba(255,255,255,0.1);
+            padding: 8px 15px;
+            border-radius: 12px;
+            font-size: 1rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .viewers-box i {
+            color: #4cd137;
+            margin-left: 8px;
+        }
+
+        #viewer-count {
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* تصميم الفوتر */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* تأثيرات الانميشن */
+        .pulse {
+            animation: pulse-red 2s infinite;
+        }
+
+        @keyframes pulse-red {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
         }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-dark">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="#">
-                <span style="color: #38bdf8;">LIVE</span> SPORTS
-            </a>
-            <span class="status-badge">بث مباشر الآن</span>
-        </div>
-    </nav>
+<nav class="navbar">
+    <div class="logo">عبود LIVE <i class="fas fa-satellite-dish"></i></div>
+    <div style="font-size: 0.8rem; opacity: 0.7;">حصرياً | تصفيات 2026</div>
+</nav>
 
-    <div class="container">
-        <div class="video-container">
-            <h3 class="mb-4 text-center">مشاهدة المباراة بجودة عالية</h3>
-            
-            <video id="my-video" class="video-js vjs-big-play-centered vjs-theme-city" controls preload="auto" data-setup='{}'>
-                <source src="http://wjk30.tutor3.site/live/906544_.m3u8?session=Fsfuteq0yrUbEy-g_gNALVHW06VoIZ4TkpWPhrWff6ULy1a48_1H9OJMRQShLLbipEe2pb2bIZR3cr8V5G7GlxUT9URC7or1&location=local" type="application/x-mpegURL">
-                <p class="vjs-no-js">
-                    للمشاهدة، يرجى تفعيل جافا سكريبت وتحديث المتصفح.
-                </p>
+<div class="container">
+    <div class="player-card">
+        <div class="video-wrapper">
+            <video id="main-player" class="video-js vjs-big-play-centered vjs-theme-city" controls preload="auto">
+                <source src="http://xcmin32.acmst.it.com/live/594040_.m3u8?session=OgpDfT7ks71D7hGDb2IqBStrT9--XPCwFsIuT9lXMrvh3ILIpkxZlbxuPto9ZRJXnVcEl4OHZWUiFhVwoWw6d0NNU-EN7yCE&location=local" type="application/x-mpegURL">
             </video>
-
-            <div class="mt-4 p-3 border-top border-secondary">
-                <h5>تفاصيل البث:</h5>
-                <p class="text-secondary small">إذا توقف البث، قم بتحديث الصفحة. هذا المشغل يدعم تقنية HLS لضمان استقرار الإشارة.</p>
+        </div>
+        
+        <div class="status-bar">
+            <div class="match-info">
+                <h2>🇮🇶 العراق ضد بوليفيا 🇧🇴</h2>
+                <div style="font-size: 0.9rem; color: #888; margin-top: 5px;">
+                    <i class="far fa-calendar-alt"></i> 1 أبريل 2026 | ملعب البصرة الدولي
+                </div>
+            </div>
+            
+            <div class="live-stats">
+                <div class="badge pulse">
+                    <span style="width: 8px; height: 8px; background: white; border-radius: 50%;"></span>
+                    مباشر
+                </div>
+                <div class="viewers-box">
+                    <span id="viewer-count">220,450</span>
+                    <i class="fas fa-eye"></i>
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="https://vjs.zencdn.net/8.3.0/video.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div style="margin-top: 25px; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 15px; border: 1px dashed rgba(255,255,255,0.1);">
+        <h4 style="margin: 0 0 10px 0; color: #fff;"><i class="fas fa-info-circle"></i> ملاحظة من عبود</h4>
+        <p style="margin: 0; color: #aaa; font-size: 0.9rem; line-height: 1.6;">
+            أهلاً بكم في بث عبود الرسمي. هذا البث مخصص لمحبي أسود الرافدين. في حال انقطاع البث، يرجى تحديث الصفحة فوراً.
+        </p>
+    </div>
+</div>
+
+<footer class="footer">
+    تم التطوير بواسطة عبود &copy; 2026 | جميع الحقوق محفوظة
+</footer>
+
+<script src="https://vjs.zencdn.net/7.20.3/video.js"></script>
+<script>
+    // تهيئة المشغل
+    var player = videojs('main-player', {
+        fluid: true,
+        playbackRates: [0.5, 1, 1.5, 2]
+    });
+
+    // نظام العداد الوهمي المتقدم لـ "عبود"
+    function startSmartCounter() {
+        const counter = document.getElementById('viewer-count');
+        let current = 220120; // نقطة البداية
+
+        setInterval(() => {
+            // حركة ذكية: زيادة طفيفة ثم هبوط بسيط ليعطي واقعية
+            const flux = Math.floor(Math.random() * 450) - 200; 
+            current += flux;
+
+            // الحفاظ على النطاق بين 200 ألف و 250 ألف
+            if (current < 200000) current += 1000;
+            if (current > 250000) current -= 1000;
+
+            // إضافة الفواصل العشرية للرقم (مثلاً 220,123)
+            counter.innerText = current.toLocaleString('en-US');
+        }, 2500); // تحديث كل ثانيتين ونص
+    }
+
+    startSmartCounter();
+</script>
+
 </body>
 </html>
