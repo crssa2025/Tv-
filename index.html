@@ -3,94 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بث عبود LIVE - حصري 2026</title>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.3.5/shaka-player.compiled.debug.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
-    
+    <title>البث المباشر | العراق ضد بوليفيا</title>
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
     <style>
-        body { background: #000; color: #fff; font-family: 'Cairo', sans-serif; margin: 0; text-align: center; }
-        .header { background: #111; padding: 15px; border-bottom: 2px solid #ff004c; }
-        .video-container { width: 100%; max-width: 900px; margin: 20px auto; position: relative; background: #111; border-radius: 15px; overflow: hidden; box-shadow: 0 0 30px rgba(255,0,76,0.2); }
-        video { width: 100%; aspect-ratio: 16/9; display: block; }
-        
-        /* واجهة العداد */
-        .live-bar { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: #0a0a0a; border-top: 1px solid #222; }
-        .live-label { background: #ff0000; padding: 4px 12px; border-radius: 4px; font-weight: bold; font-size: 14px; animation: blink 1s infinite; }
-        .viewers { color: #00ff88; font-weight: bold; }
+        body {
+            background-color: #0f0f0f;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-        /* رسالة مساعدة إذا لم يعمل البث */
-        #help-msg { display: none; padding: 15px; background: #221111; border: 1px dashed #ff4444; margin: 10px; border-radius: 10px; font-size: 0.85rem; color: #ff9999; }
-        
-        @keyframes blink { 50% { opacity: 0.5; } }
+        .header {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(145deg, #1a1a1a, #000);
+            text-align: center;
+            border-bottom: 2px solid #00ff00;
+            box-shadow: 0 4px 15px rgba(0, 255, 0, 0.2);
+        }
+
+        .live-indicator {
+            background-color: red;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            animation: blink 1s infinite;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .container {
+            width: 95%;
+            max-width: 900px;
+            margin-top: 20px;
+        }
+
+        /* تنسيق مشغل الفيديو */
+        .video-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        .video-js {
+            width: 100%;
+            height: 500px;
+        }
+
+        /* عداد المشاهدات */
+        .stats-bar {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #333;
+        }
+
+        .viewers-count {
+            color: #00ff00;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .match-info {
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 600px) {
+            .video-js { height: 250px; }
+            .stats-bar { flex-direction: column; gap: 10px; }
+        }
     </style>
 </head>
-<body onload="initApp()">
+<body>
 
-<div class="header">
-    <h1 style="margin:0; font-size: 1.5rem;">بث عبود <span style="color:#ff004c">LIVE</span> 🇮🇶</h1>
-</div>
-
-<div class="container">
-    <div id="help-msg">
-        ⚠️ إذا لم يشتغل البث: اضغط على القفل بجانب الرابط > إعدادات الموقع > السماح بـ (Insecure Content / المحتوى غير الآمن).
+    <div class="header">
+        <div class="live-indicator">مباشر LIVE</div>
+        <h1 style="margin: 5px 0;">🇮🇶 العراق vs بوليفيا 🇧🇴</h1>
+        <p>تصفيات دولية ودية - 1 أبريل 2026</p>
     </div>
 
-    <div class="video-container">
-        <video id="video" poster="https://p0.pxfuel.com/preview/44/104/187/stadium-football-arena-pitch.jpg" controls autoplay playsinline></video>
-        
-        <div class="live-bar">
-            <div class="live-label">LIVE</div>
-            <div class="viewers">👁️ <span id="v-count">220,415</span></div>
+    <div class="container">
+        <div class="video-container">
+            <video id="my-video" class="video-js vjs-big-play-centered" controls preload="auto" data-setup='{}'>
+                <source src="http://xcmin32.acmst.it.com/live/194432_.m3u8?session=zWETTd-UxKdl8D44xQw0olB0XWYO9T7IrXiRdl9wh4okv4Ayy7j5rVSCR3vpBdd6QJ8E42Po_Cu36C90dBZK-Um36TVPvTiD&location=local" type="application/x-mpegURL">
+            </video>
+        </div>
+
+        <div class="stats-bar">
+            <div class="match-info">جودة البث: <span style="color: #00bfff;">1080p FHD</span></div>
+            <div class="viewers-count">
+                👁️ <span id="count">220,123</span> مشاهد الآن
+            </div>
         </div>
     </div>
-    
-    <h2 style="font-size: 1.2rem;">العراق vs بوليفيا</h2>
-    <p style="color: #666; font-size: 0.8rem;">بث فائق السرعة - تطوير عبود 2026</p>
-</div>
 
-<script>
-    async function initApp() {
-        // تفعيل مكتبة Shaka
-        shaka.polyfill.installAll();
-        if (shaka.Player.isBrowserSupported()) {
-            initPlayer();
-        } else {
-            console.error('Browser not supported!');
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+
+    <script>
+        // دالة لتحديث عداد المشاهدات بشكل وهمي وديناميكي
+        function updateViewers() {
+            const countElement = document.getElementById('count');
+            
+            // تحديد المدى بين 200,000 و 250,000
+            let min = 200000;
+            let max = 250000;
+            
+            // توليد رقم عشوائي ضمن النطاق
+            let currentCount = Math.floor(Math.random() * (max - min + 1)) + min;
+            
+            // إضافة الفواصل الرقمية للجمالية (مثل 220,123)
+            countElement.innerText = currentCount.toLocaleString('en-US');
         }
-    }
 
-    async function initPlayer() {
-        const video = document.getElementById('video');
-        const player = new shaka.Player(video);
-        const manifestUri = 'http://xcmin32.acmst.it.com/live/194432_.m3u8?session=zWETTd-UxKdl8D44xQw0olB0XWYO9T7IrXiRdl9wh4okv4Ayy7j5rVSCR3vpBdd6QJ8E42Po_Cu36C90dBZK-Um36TVPvTiD&location=local';
+        // تحديث الرقم كل 5 ثواني لإعطاء حركة للموقع
+        setInterval(updateViewers, 5000);
 
-        // خوارزمية تخطي أخطاء الشبكة
-        player.addEventListener('error', onPlayerError);
-        
-        try {
-            await player.load(manifestUri);
-            console.log('The video has now been loaded!');
-        } catch (e) {
-            onPlayerError(e);
-        }
-    }
-
-    function onPlayerError(error) {
-        console.error('Error code', error.code, 'object', error);
-        // إذا فشل التشغيل بسبب الـ Mixed Content (HTTP on HTTPS)
-        document.getElementById('help-msg').style.display = 'block';
-    }
-
-    // عداد عبود الذكي
-    setInterval(() => {
-        let count = parseInt(document.getElementById('v-count').innerText.replace(/,/g, ''));
-        count += Math.floor(Math.random() * 500) - 200;
-        if(count < 200000) count = 210000;
-        if(count > 250000) count = 245000;
-        document.getElementById('v-count').innerText = count.toLocaleString();
-    }, 3000);
-</script>
-
+        // تشغيل الدالة فور تحميل الصفحة
+        updateViewers();
+    </script>
 </body>
 </html>
