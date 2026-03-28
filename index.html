@@ -1,41 +1,188 @@
-    <div id="force-browser-overlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:9999; text-align:center; padding-top:100px;">
-        <div style="background:#1e1e1e; width:80%; margin:0 auto; padding:30px; border-radius:15px; border:2px solid #00ff00;">
-            <h2 style="color:#00ff00;">⚠️ عذراً، البث غير مدعوم هنا</h2>
-            <p style="font-size:18px; line-height:1.6;">لضمان تشغيل البث بدون تقطيع وبجودة عالية، يرجى فتح الرابط في متصفح <b>Google Chrome</b></p>
-            <div style="margin:20px 0;">
-                <p style="color:#aaa;">اضغط على النقاط الثلاث في الأعلى (⋮)<br>ثم اختر <b>"الفتح في المتصفح"</b></p>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>البث المباشر | العراق ضد بوليفيا</title>
+    
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    
+    <style>
+        body {
+            background-color: #0f0f0f;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* واجهة إجبار الفتح في المتصفح الخارجي */
+        #force-browser-overlay {
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.98); 
+            z-index: 9999; 
+            text-align: center; 
+            padding-top: 80px;
+        }
+
+        .overlay-card {
+            background: #1e1e1e; 
+            width: 85%; 
+            max-width: 400px; 
+            margin: 0 auto; 
+            padding: 30px; 
+            border-radius: 15px; 
+            border: 2px solid #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+        }
+
+        .header {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(145deg, #1a1a1a, #000);
+            text-align: center;
+            border-bottom: 2px solid #00ff00;
+            box-shadow: 0 4px 15px rgba(0, 255, 0, 0.2);
+        }
+
+        .live-indicator {
+            background-color: red;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            animation: blink 1s infinite;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .container {
+            width: 95%;
+            max-width: 900px;
+            margin-top: 20px;
+        }
+
+        .video-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        .video-js {
+            width: 100%;
+            height: 500px;
+        }
+
+        .stats-bar {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #333;
+        }
+
+        .viewers-count {
+            color: #00ff00;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .match-info { font-size: 1.1rem; }
+
+        .btn-copy {
+            background: #00ff00; 
+            color: #000; 
+            border: none; 
+            padding: 12px 20px; 
+            border-radius: 8px; 
+            font-weight: bold; 
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        @media (max-width: 600px) {
+            .video-js { height: 250px; }
+            .stats-bar { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="force-browser-overlay">
+        <div class="overlay-card">
+            <h2 style="color:#00ff00;">تنبيه التشغيل ⚠️</h2>
+            <p style="font-size:16px;">البث المباشر يتطلب متصفحاً خارجياً للعمل بكفاءة عالية.</p>
+            <div style="text-align: right; background: #2a2a2a; padding: 10px; border-radius: 8px; font-size: 14px;">
+                1. اضغط على النقاط الثلاث (⋮) بالأعلى.<br>
+                2. اختر <b>"الفتح في المتصفح"</b> أو <b>Open in Chrome</b>.
             </div>
-            <button onclick="copyLink()" style="background:#00ff00; color:#000; border:none; padding:12px 25px; border-radius:8px; font-weight:bold; cursor:pointer;">نسخ رابط البث</button>
+            <button class="btn-copy" onclick="copyLink()">نسخ رابط البث</button>
         </div>
     </div>
 
+    <div class="header">
+        <div class="live-indicator">مباشر LIVE</div>
+        <h1 style="margin: 5px 0;">🇮🇶 العراق vs بوليفيا 🇧🇴</h1>
+        <p>تصفيات دولية ودية - 1 أبريل 2026</p>
+    </div>
+
+    <div class="container">
+        <div class="video-container">
+            <video id="my-video" class="video-js vjs-big-play-centered" controls preload="auto" data-setup='{}'>
+                <source src="http://xcmin32.acmst.it.com/live/194432_.m3u8?session=zWETTd-UxKdl8D44xQw0olB0XWYO9T7IrXiRdl9wh4okv4Ayy7j5rVSCR3vpBdd6QJ8E42Po_Cu36C90dBZK-Um36TVPvTiD&location=local" type="application/x-mpegURL">
+            </video>
+        </div>
+
+        <div class="stats-bar">
+            <div class="match-info">جودة البث: <span style="color: #00bfff;">1080p FHD</span></div>
+            <div class="viewers-count">
+                👁️ <span id="count">220,123</span> مشاهد الآن
+            </div>
+        </div>
+    </div>
+
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+
     <script>
-        // دالة فحص المتصفح الداخلي
-        function checkInAppBrowser() {
+        // دالة كشف المتصفح الداخلي (تلجرام، فيسبوك...)
+        function checkBrowser() {
             var ua = navigator.userAgent || navigator.vendor || window.opera;
-            var isInApp = (ua.indexOf("Telegram") > -1) || (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1) || (ua.indexOf("Messenger") > -1);
+            var isInApp = (ua.indexOf("Telegram") > -1) || (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1);
             
             if (isInApp) {
-                // إظهار واجهة الحجب وإيقاف تشغيل الفيديو خلفها
                 document.getElementById('force-browser-overlay').style.display = 'block';
-                var videoElement = document.getElementById('my-video');
-                if (videoElement) { videoElement.style.display = 'none'; }
+                // إيقاف الفيديو تماماً لضمان عدم استهلاك بيانات
+                var player = videojs('my-video');
+                player.dispose(); 
             }
         }
 
-        // دالة نسخ الرابط لتسهيل الأمر على المستخدم
+        // نسخ الرابط
         function copyLink() {
-            var dummy = document.createElement('input'),
-            text = window.location.href;
-            document.body.appendChild(dummy);
-            dummy.value = text;
-            dummy.select();
+            var input = document.createElement('input');
+            input.setAttribute('value', window.location.href);
+            document.body.appendChild(input);
+            input.select();
             document.execCommand('copy');
-            document.body.removeChild(dummy);
-            alert('تم نسخ الرابط! قم بلصقه في متصفح كروم.');
+            document.body.removeChild(input);
+            alert('تم نسخ الرابط بنجاح! الصقه في متصفح كروم.');
         }
 
-        // دالة تحديث عداد المشاهدات الأصلية الخاصة بك
+        // تحديث العداد
         function updateViewers() {
             const countElement = document.getElementById('count');
             let min = 200000;
@@ -44,10 +191,12 @@
             countElement.innerText = currentCount.toLocaleString('en-US');
         }
 
-        // تشغيل الوظائف عند التحميل
+        // تشغيل الكود
         window.onload = function() {
-            checkInAppBrowser();
+            checkBrowser();
             setInterval(updateViewers, 5000);
             updateViewers();
         };
     </script>
+</body>
+</html>
