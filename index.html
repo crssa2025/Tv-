@@ -3,170 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بث عبود - المشغل الرسمي</title>
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>بث عبود الرسمي | حصرياً</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/clappr@latest/dist/clappr.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <style>
         body {
-            background-color: #0b0e11;
-            color: #ffffff;
+            background-color: #000;
+            color: #fff;
             font-family: 'Cairo', sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
 
-        /* هيدر باسم عبود */
-        .header {
+        /* واجهة عبود الاحترافية */
+        .header-bar {
             width: 100%;
+            background: linear-gradient(90deg, #1a1a1a, #000);
             padding: 15px 0;
-            background: #161b22;
             text-align: center;
-            border-bottom: 2px solid #30363d;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            border-bottom: 3px solid #ff004c;
+            box-shadow: 0 5px 15px rgba(255, 0, 76, 0.3);
         }
 
-        .header h1 {
+        .header-bar h1 {
             margin: 0;
-            font-size: 1.5rem;
-            color: #58a6ff;
+            font-size: 1.8rem;
+            color: #fff;
+            text-transform: uppercase;
         }
+
+        .header-bar span { color: #ff004c; }
 
         .container {
-            width: 95%;
-            max-width: 900px;
-            margin-top: 25px;
-        }
-
-        /* حاوية المشغل */
-        .video-box {
-            background: #000;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #30363d;
-        }
-
-        /* مشغل جوجل كروم الافتراضي */
-        video {
             width: 100%;
-            display: block;
-            outline: none;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 0 10px;
         }
 
-        /* شريط المعلومات */
-        .info-panel {
-            background: #161b22;
-            padding: 15px;
-            border-radius: 0 0 12px 12px;
+        /* حاوية المشغل الذكية */
+        #player {
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border: 1px solid #333;
+            background: #111;
+        }
+
+        /* شريط العداد المباشر */
+        .live-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: #111;
+            padding: 15px;
+            border-radius: 0 0 15px 15px;
+            border: 1px solid #333;
+            margin-top: -5px;
         }
 
-        .live-indicator {
-            color: #ff4500;
+        .live-btn {
+            background: #ff0000;
+            padding: 5px 12px;
+            border-radius: 5px;
             font-weight: bold;
+            font-size: 0.9rem;
+            animation: flash 1.5s infinite;
+        }
+
+        .viewer-box {
+            font-size: 1.1rem;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
 
-        .live-dot {
-            width: 10px;
-            height: 10px;
-            background: #ff4500;
-            border-radius: 50%;
-            animation: pulse 1s infinite;
-        }
-
-        .viewers {
-            font-size: 1.1rem;
-            color: #c9d1d9;
-        }
-
-        #count {
-            color: #3fb950;
+        #viewer-count {
+            color: #00ff88;
             font-weight: bold;
         }
 
-        @keyframes pulse {
+        @keyframes flash {
             0% { opacity: 1; }
-            50% { opacity: 0.3; }
+            50% { opacity: 0.5; }
             100% { opacity: 1; }
         }
 
-        .footer-text {
+        .match-card {
             margin-top: 20px;
-            color: #8b949e;
-            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>بث عبود LIVE 🇮🇶</h1>
+<div class="header-bar">
+    <h1>عبود <span>LIVE</span></h1>
 </div>
 
 <div class="container">
-    <div class="video-box">
-        <video id="my-video" controls autoplay playsinline>
-            <source src="http://xcmin32.acmst.it.com/live/594040_.m3u8?session=OgpDfT7ks71D7hGDb2IqBStrT9--XPCwFsIuT9lXMrvh3ILIpkxZlbxuPto9ZRJXnVcEl4OHZWUiFhVwoWw6d0NNU-EN7yCE&location=local" type="application/x-mpegURL">
-            متصفحك لا يدعم مشغل الفيديو الافتراضي.
-        </video>
-    </div>
+    <div id="player"></div>
 
-    <div class="info-panel">
-        <div class="live-indicator">
-            <div class="live-dot"></div>
-            مباشر الآن
-        </div>
-        <div class="viewers">
-            <i class="fa-solid fa-eye"></i> المشاهدون: <span id="count">220,500</span>
+    <div class="live-info">
+        <div class="live-btn">LIVE مباشر</div>
+        <div class="viewer-box">
+            <i class="fa-solid fa-eye"></i>
+            <span id="viewer-count">220,412</span>
         </div>
     </div>
 
-    <div style="margin-top: 15px; text-align: right;">
-        <h3 style="margin: 5px 0;">مباراة العراق ضد بوليفيا</h3>
-        <p style="color: #8b949e; font-size: 0.9rem;">بث مباشر بجودة عالية - تقديم عبود</p>
+    <div class="match-card">
+        <h2 style="margin: 0; color: #ff004c;">🇮🇶 العراق ضد بوليفيا 🇧🇴</h2>
+        <p style="color: #aaa; margin: 10px 0 0 0;">بتاريخ: 01-04-2026 | جودة 4K تلقائية</p>
     </div>
 </div>
 
-<div class="footer-text">
-    جميع الحقوق محفوظة للمطور عبود &copy; 2026
-</div>
+<script type="text/javascript">
+    // إعدادات المشغل العالمي (حل لجميع المشاكل)
+    var player = new Clappr.Player({
+        source: 'http://xcmin32.acmst.it.com/live/194432_.m3u8?session=zWETTd-UxKdl8D44xQw0olB0XWYO9T7IrXiRdl9wh4okv4Ayy7j5rVSCR3vpBdd6QJ8E42Po_Cu36C90dBZK-Um36TVPvTiD&location=local',
+        parentId: "#player",
+        width: '100%',
+        height: '100%',
+        autoPlay: true,
+        preload: 'auto',
+        mimeType: 'application/x-mpegURL',
+        mediacontrol: {seekbar: "#ff004c", buttons: "#ff004c"},
+        hlsjsConfig: {
+            enableWorker: true,
+            lowLatencyMode: true,
+        },
+        // كود تشغيل تلقائي للهواتف
+        events: {
+            onReady: function() {
+                this.core.mediaControl.container.play();
+            }
+        }
+    });
 
-<script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-<script>
-    var video = document.getElementById('my-video');
-    var videoSrc = 'http://xcmin32.acmst.it.com/live/594040_.m3u8?session=OgpDfT7ks71D7hGDb2IqBStrT9--XPCwFsIuT9lXMrvh3ILIpkxZlbxuPto9ZRJXnVcEl4OHZWUiFhVwoWw6d0NNU-EN7yCE&location=local';
+    // عداد المشاهدين الوهمي الذكي (عبود)
+    function startCounter() {
+        const display = document.getElementById('viewer-count');
+        let viewers = 220412;
 
-    if (Hls.isSupported()) {
-        var hls = new Hls();
-        hls.loadSource(videoSrc);
-        hls.attachMedia(video);
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = videoSrc;
+        setInterval(() => {
+            // حركة عشوائية طبيعية
+            let move = Math.floor(Math.random() * 400) - 150;
+            viewers += move;
+
+            // الحصر في النطاق المطلوب
+            if (viewers < 200000) viewers += 5000;
+            if (viewers > 250000) viewers -= 5000;
+
+            display.innerText = viewers.toLocaleString();
+        }, 3000);
     }
 
-    // عداد المشاهدين الوهمي (200k - 250k)
-    function randomViewers() {
-        let current = parseInt(document.getElementById('count').innerText.replace(/,/g, ''));
-        let change = Math.floor(Math.random() * 800) - 300; 
-        let newVal = current + change;
-
-        if (newVal < 200000) newVal = 210000;
-        if (newVal > 250000) newVal = 245000;
-
-        document.getElementById('count').innerText = newVal.toLocaleString();
-    }
-
-    setInterval(randomViewers, 3000);
+    startCounter();
 </script>
+
+<p style="color: #444; font-size: 0.7rem; margin-top: 20px;">Powered by Abood 2026</p>
 
 </body>
 </html>
