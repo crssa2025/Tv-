@@ -3,116 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>البث المباشر | العراق ضد بوليفيا 2026</title>
-    
+    <title>البث المباشر | العراق ضد بوليفيا</title>
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
-
     <style>
-        :root { --primary-color: #00ff00; --bg-color: #0a0a0a; }
-        body { background-color: var(--bg-color); color: white; font-family: 'Segoe UI', Tahoma, sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
-        
-        /* تنبيه لمستخدمي التطبيقات (تلغرام/فيسبوك) */
-        #browser-notice {
-            display: none; background: #ffcc00; color: #000; text-align: center; 
-            padding: 12px; font-weight: bold; font-size: 14px; position: sticky; top: 0; z-index: 1000;
+        body {
+            background-color: #0f0f0f;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .header {
-            width: 100%; padding: 25px 0; background: linear-gradient(180deg, #1a1a1a 0%, #0a0a0a 100%);
-            text-align: center; border-bottom: 2px solid var(--primary-color); box-shadow: 0 5px 20px rgba(0,255,0,0.1);
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(145deg, #1a1a1a, #000);
+            text-align: center;
+            border-bottom: 2px solid #00ff00;
+            box-shadow: 0 4px 15px rgba(0, 255, 0, 0.2);
         }
 
-        .live-tag {
-            background: red; padding: 4px 12px; border-radius: 4px; font-size: 0.8rem;
-            font-weight: bold; animation: pulse 1.5s infinite; display: inline-block; margin-bottom: 10px;
+        .live-indicator {
+            background-color: red;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            animation: blink 1s infinite;
+            display: inline-block;
+            margin-bottom: 10px;
         }
 
-        @keyframes pulse { 0% {opacity: 1;} 50% {opacity: 0.5;} 100% {opacity: 1;} }
-
-        .container { width: 95%; max-width: 1000px; margin: 20px auto; }
-
-        /* حاوية الفيديو المارنة */
-        .video-wrapper {
-            position: relative; border-radius: 15px; overflow: hidden;
-            box-shadow: 0 0 40px rgba(0,0,0,0.9); border: 1px solid #333;
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
         }
 
-        .video-js { width: 100% !important; height: auto; aspect-ratio: 16/9; }
-
-        /* شريط الإحصائيات */
-        .status-bar {
-            background: #161616; padding: 15px 20px; border-radius: 0 0 15px 15px;
-            display: flex; justify-content: space-between; align-items: center; border: 1px solid #333; border-top: none;
+        .container {
+            width: 95%;
+            max-width: 900px;
+            margin-top: 20px;
         }
 
-        .viewers { color: var(--primary-color); font-weight: bold; font-size: 1.1rem; }
-        .quality { color: #00bfff; font-size: 0.9rem; }
+        /* تنسيق مشغل الفيديو */
+        .video-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        }
+
+        .video-js {
+            width: 100%;
+            height: 500px;
+        }
+
+        /* عداد المشاهدات */
+        .stats-bar {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #333;
+        }
+
+        .viewers-count {
+            color: #00ff00;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .match-info {
+            font-size: 1.1rem;
+        }
 
         @media (max-width: 600px) {
-            .status-bar { flex-direction: column; gap: 10px; text-align: center; }
+            .video-js { height: 250px; }
+            .stats-bar { flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <div id="browser-notice">
-        ⚠️ لضمان عدم انقطاع البث، اضغط على (⋮) ثم اختر "الفتح في المتصفح" أو "Open in Chrome"
-    </div>
-
     <div class="header">
-        <div class="live-tag">LIVE - مباشر</div>
-        <h1 style="margin: 0; font-size: 1.8rem;">🇮🇶 العراق <span style="color:gray; font-size: 1.2rem;">VS</span> بوليفيا 🇧🇴</h1>
-        <p style="color: #bbb; margin-top: 10px;">تصفيات دولية - 1 أبريل 2026</p>
+        <div class="live-indicator">مباشر LIVE</div>
+        <h1 style="margin: 5px 0;">🇮🇶 العراق vs بوليفيا 🇧🇴</h1>
+        <p>تصفيات دولية ودية - 1 أبريل 2026</p>
     </div>
 
     <div class="container">
-        <div class="video-wrapper">
-            <video id="player" class="video-js vjs-big-play-centered vjs-theme-city" controls preload="auto" playsinline webkit-playsinline
-                data-setup='{"fluid": true, "autoplay": "muted"}'>
+        <div class="video-container">
+            <video id="my-video" class="video-js vjs-big-play-centered" controls preload="auto" data-setup='{}'>
                 <source src="http://xcmin32.acmst.it.com/live/194432_.m3u8?session=zWETTd-UxKdl8D44xQw0olB0XWYO9T7IrXiRdl9wh4okv4Ayy7j5rVSCR3vpBdd6QJ8E42Po_Cu36C90dBZK-Um36TVPvTiD&location=local" type="application/x-mpegURL">
-                <p class="vjs-no-js">مشغل الفيديو يتطلب متصفحاً حديثاً لدعمه.</p>
             </video>
         </div>
 
-        <div class="status-bar">
-            <div class="viewers">
-                🔴 <span id="viewer-count">220,450</span> مشاهد الآن
+        <div class="stats-bar">
+            <div class="match-info">جودة البث: <span style="color: #00bfff;">1080p FHD</span></div>
+            <div class="viewers-count">
+                👁️ <span id="count">220,123</span> مشاهد الآن
             </div>
-            <div class="quality">📡 السيرفر الأساسي | جودة تلقائية 4K</div>
         </div>
     </div>
 
+    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+
     <script>
-        // 1. كود كشف التطبيقات (تلغرام، فيسبوك، الخ) لإظهار التنبيه
-        var ua = navigator.userAgent || navigator.vendor || window.opera;
-        var isApp = (ua.indexOf("Telegram") > -1) || (ua.indexOf("FBAN") > -1) || (ua.indexOf("FBAV") > -1) || (ua.indexOf("Instagram") > -1);
-        if (isApp) {
-            document.getElementById("browser-notice").style.display = "block";
+        // دالة لتحديث عداد المشاهدات بشكل وهمي وديناميكي
+        function updateViewers() {
+            const countElement = document.getElementById('count');
+            
+            // تحديد المدى بين 200,000 و 250,000
+            let min = 200000;
+            let max = 250000;
+            
+            // توليد رقم عشوائي ضمن النطاق
+            let currentCount = Math.floor(Math.random() * (max - min + 1)) + min;
+            
+            // إضافة الفواصل الرقمية للجمالية (مثل 220,123)
+            countElement.innerText = currentCount.toLocaleString('en-US');
         }
 
-        // 2. كود العداد الوهمي الديناميكي (يتغير كل 4 ثواني بين 210 ألف و 245 ألف)
-        function updateCounter() {
-            const countElement = document.getElementById('viewer-count');
-            let min = 210000;
-            let max = 245000;
-            let current = Math.floor(Math.random() * (max - min + 1)) + min;
-            countElement.innerText = current.toLocaleString('en-US');
-        }
-        setInterval(updateCounter, 4000);
-        updateCounter();
+        // تحديث الرقم كل 5 ثواني لإعطاء حركة للموقع
+        setInterval(updateViewers, 5000);
 
-        // 3. محاولة التشغيل التلقائي (بعض المتصفحات تطلب كتم الصوت للتشغيل التلقائي)
-        var player = videojs('player');
-        player.ready(function() {
-            var promise = player.play();
-            if (promise !== undefined) {
-                promise.catch(error => {
-                    console.log("التشغيل التلقائي يتطلب تفاعل المستخدم أولاً");
-                });
-            }
-        });
+        // تشغيل الدالة فور تحميل الصفحة
+        updateViewers();
     </script>
-
 </body>
 </html>
