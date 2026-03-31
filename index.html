@@ -1,112 +1,120 @@
-
-
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>بث عبدالله زيدان | قناة ترايد مود</title>
+    <title>بث عبود المطور | TRIDE MOD</title>
     
-    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    
     <style>
         :root { --neon: #00d2ff; --gold: #ffd700; --glass: rgba(255, 255, 255, 0.05); }
-        body, html { margin: 0; padding: 0; background: #01060b; color: white; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        body, html { margin: 0; padding: 0; background: #01060b; color: white; font-family: 'Segoe UI', Tahoma, sans-serif; overflow-x: hidden; }
         
-        /* الهيدر الجديد */
         .top-header { 
-            padding: 15px; 
-            background: linear-gradient(to bottom, rgba(0,210,255,0.1), rgba(0,0,0,0.8)); 
+            padding: 20px 10px; 
+            background: radial-gradient(circle at center, rgba(0, 210, 255, 0.15) 0%, rgba(0,0,0,0.9) 80%);
             border-bottom: 1px solid var(--neon);
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
-        .stream-by { font-size: 14px; color: #ccc; letter-spacing: 1px; }
-        .stream-by b { color: #fff; font-size: 18px; text-shadow: 0 0 10px var(--neon); }
-        .channel-name { color: var(--gold); font-weight: bold; font-size: 16px; display: block; margin-top: 5px; }
+        .stream-by b { color: #fff; font-size: 26px; text-shadow: 0 0 15px var(--neon); }
+        .notice-text { font-size: 11px; color: #888; max-width: 900px; margin: 10px auto; line-height: 1.4; padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); }
 
-        .container { width: 98%; max-width: 1100px; margin: 10px auto; }
+        .match-board { display: flex; align-items: center; justify-content: center; gap: 15px; margin: 15px 0; }
+        .team { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+        .team img { width: 45px; height: 30px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.1); }
+        .vs { font-size: 20px; font-weight: 900; color: var(--neon); }
 
-        /* منطقة الفيديو */
-        .v-box { position: relative; border-radius: 15px; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 10px; }
-        .video-js { width: 100% !important; height: auto !important; aspect-ratio: 16/9 !important; }
+        .container { width: 96%; max-width: 1100px; margin: 0 auto; }
+
+        /* منطقة الفيديو الجديدة */
+        .v-box { position: relative; border-radius: 12px; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        video { width: 100%; aspect-ratio: 16/9; display: block; background: #000; outline: none; }
 
         #play-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:100; display:flex; justify-content:center; align-items:center; cursor:pointer; }
-        .play-btn { width:75px; height:75px; background:var(--neon); border-radius:50%; display:flex; justify-content:center; align-items:center; box-shadow: 0 0 25px var(--neon); }
-        .play-icon { width:0; height:0; border-top:16px solid transparent; border-bottom:16px solid transparent; border-left:28px solid #000; margin-left:8px; }
+        .play-btn { width:65px; height:65px; background:var(--neon); border-radius:50%; display:flex; justify-content:center; align-items:center; box-shadow: 0 0 20px var(--neon); }
+        .play-icon { width:0; height:0; border-top:14px solid transparent; border-bottom:14px solid transparent; border-left:24px solid #000; margin-left:6px; }
 
-        /* التوزيع: بصف الثاني */
-        .flex-row { display: flex; gap: 10px; width: 100%; }
-
-        .card {
-            flex: 1;
-            background: var(--glass);
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 12px;
-            height: 420px;
-            display: flex;
-            flex-direction: column;
+        /* أزرار الجودة */
+        .quality-switcher { display: flex; justify-content: center; gap: 8px; margin: 15px 0; flex-wrap: wrap; }
+        .q-btn { 
+            background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); 
+            color: #fff; padding: 10px 18px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; transition: 0.3s;
         }
+        .q-btn.active { background: var(--neon); color: #000; border-color: var(--neon); box-shadow: 0 0 10px var(--neon); }
 
-        .title { font-size: 16px; color: var(--neon); font-weight: bold; text-align: center; margin-bottom: 12px; border-bottom: 1px solid #333; padding-bottom: 6px; }
+        /* التوزيع الأفقي الإجباري */
+        .flex-row-fixed { display: flex; flex-direction: row !important; gap: 8px; width: 100%; margin-bottom: 20px; }
+        .card { flex: 1; background: var(--glass); border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); padding: 10px; height: 380px; display: flex; flex-direction: column; }
+        .title { font-size: 14px; color: var(--neon); font-weight: bold; text-align: center; margin-bottom: 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
 
-        /* المعلومات (يمين) */
-        .item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
-        .lbl { color: #aaa; font-size: 14px; min-width: 65px; }
-        .val { color: #fff; font-size: 16px; font-weight: 800; }
+        .item { display: flex; align-items: center; gap: 5px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .lbl { color: #aaa; font-size: 11px; min-width: 50px; }
+        .val { color: #fff; font-size: 11px; font-weight: 700; }
 
-        /* المشاهدات (يسار) */
         .scroll { flex: 1; overflow-y: auto; scrollbar-width: none; }
-        .p-row { display: flex; align-items: center; gap: 15px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
-        .p-name { color: #eee; font-size: 16px; font-weight: bold; min-width: 75px; }
-        .p-num { color: var(--neon); font-size: 18px; font-weight: 900; font-family: 'Courier New', monospace; }
+        .p-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .p-name { color: #eee; font-size: 11px; font-weight: bold; min-width: 55px; }
+        .p-num { color: var(--neon); font-size: 12px; font-weight: 800; font-family: 'Courier New', monospace; }
 
-        .total-box { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--neon); text-align: center; }
-        .total-num { font-size: 24px; font-weight: 900; color: #fff; }
+        .total-box { margin-top: auto; padding-top: 8px; border-top: 1px solid var(--neon); text-align: center; }
+        .total-num { font-size: 18px; font-weight: 900; color: #fff; }
 
-        @media (max-width: 600px) {
-            .flex-row { gap: 5px; }
-            .p-name { font-size: 14px; min-width: 60px; }
-            .p-num { font-size: 15px; }
-            .val { font-size: 12px; }
-            .stream-by b { font-size: 15px; }
+        @media (max-width: 480px) {
+            .val, .lbl, .p-name, .p-num { font-size: 10px; }
+            .q-btn { padding: 8px 12px; font-size: 11px; }
         }
     </style>
 </head>
 <body>
 
     <header class="top-header">
-        <span class="stream-by">البث بواسطة <b>عبدالله زيدان</b></span>
-        <span class="channel-name"> ( نود التنويه أن هذا البث مخصص للمشاهدة الشخصية فقط، ويُمنع منعاً باتاً إعادة نشره أو بثه أو استخدامه بأي شكل من الأشكال بدون إذن مسبق من إدارة الموقع. أي محاولة لنسخ المحتوى أو إعادة توزيعه تعرض صاحبها للمساءلة القانونية )</span>
+        <span class="stream-by">البث بواسطة <b>عبود 🔴</b></span>
+        <div class="notice-text">
+            ( نود التنويه أن هذا البث مخصص للمشاهدة الشخصية فقط، ويُمنع منعاً باتاً إعادة نشره أو استخدامه بدون إذن مسبق. أي محاولة لنسخ المحتوى تعرض صاحبها للمساءلة القانونية )
+        </div>
     </header>
 
     <div class="container">
+        <div class="match-board">
+            <div class="team">
+                <img src="https://flagcdn.com/w80/iq.png" alt="العراق">
+                <span style="font-size: 12px;">العراق</span>
+            </div>
+            <div class="vs">VS</div>
+            <div class="team">
+                <img src="https://flagcdn.com/w80/bo.png" alt="بوليفيا">
+                <span style="font-size: 12px;">بوليفيا</span>
+            </div>
+        </div>
+
         <div class="v-box">
             <div id="play-overlay" onclick="startStream()">
                 <div class="play-btn"><div class="play-icon"></div></div>
             </div>
-            <video id="v-player" class="video-js" playsinline>
-                <source src="https://xcmin32.acmst.it.com/live/194432_.m3u8?session=-PyYVpXfOdF5R8X9DG7jZUk2Tm0ejih5dQuPwypi3cBt_7c9EzYZDfpQUFaCoU2euIY4bLI70mILS0aCf6Ok6dAF7agTILn2&location=locall">
-            </video>
+            <video id="video" controls playsinline></video>
         </div>
 
-        <div class="flex-row">
+        <div class="quality-switcher">
+            <button class="q-btn" onclick="switchSource(this, 'https://xcmin32.acmst.it.com/live/194432_.m3u8?session=-PyYVpXfOdF5R8X9DG7jZUk2Tm0ejih5dQuPwypi3cBt_7c9EzYZDfpQUFaCoU2euIY4bLI70mILS0aCf6Ok6dAF7agTILn2&location=local')">جودة ضعيفة</button>
+            <button class="q-btn active" onclick="switchSource(this, 'https://xcmin32.acmst.it.com/live/594040_.m3u8?session=DTLe2sF8Vsz-8cvsXJ9h4mVUweFn7aFkmiVrjgpVaDtr9navhZU71Xnmw-SIjSXEY8QrGOcesv52-qDOeZOEYuVQ98bYng--&location=local')">جودة متوسطة</button>
+            <button class="q-btn" onclick="switchSource(this, 'https://min1-27.godad.it.com/live/527418_.m3u8?session=JvNy2Au2VWJMpDFhw_fnQd9dpibp0tnrmh4951ebpPLI0xcFX5JOpm8l0cCReQea1Dt5iY6fhk6-M1XbEWkjvF6DvRZ1JxIj&location=local')">جودة قوية</button>
+        </div>
+
+        <div class="flex-row-fixed">
             <div class="card">
                 <div class="title">بيانات اللقاء</div>
-                <div class="item"><span class="lbl">البطولة:</span><span class="val">الملحق العالمي</span></div>
+                <div class="item"><span class="lbl">البطولة:</span><span class="val">الملحق</span></div>
                 <div class="item"><span class="lbl">الملعب:</span><span class="val">بي بي في آي</span></div>
                 <div class="item"><span class="lbl">المعلق:</span><span class="val">علي الكعبي</span></div>
-                <div class="item"><span class="lbl">الحكم:</span><span class="val">إيفان بارتون</span></div>
-                <div class="item"><span class="lbl">التاريخ:</span><span class="val" style="color:var(--gold)"> 2026/4/1</span></div>
-                <div class="item"><span class="lbl">الوقت:</span><span class="val">06:00 ص</span></div>
-                <div class="total-box"><small style="color:var(--neon)">بث حصري 4K Ultra HD</small></div>
+                <div class="item"><span class="lbl">التاريخ:</span><span class="val" style="color:var(--gold)">2026/4/1</span></div>
+                <div class="item"><span class="lbl">الجودة:</span><span id="current-q" class="val">متوسطة</span></div>
+                <div class="total-box"><small style="color:var(--neon); font-size: 9px;">بث عبود لايف</small></div>
             </div>
 
             <div class="card">
-                <div class="title">مشاهدات العراق 🇮🇶</div>
-                <div class="scroll" id="p-list">
-                    </div>
+                <div class="title">المشاهدات 🇮🇶</div>
+                <div class="scroll" id="p-list"></div>
                 <div class="total-box">
                     <span class="total-num" id="total-v-count">245.810</span>
                 </div>
@@ -114,20 +122,55 @@
         </div>
     </div>
 
-    <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
     <script>
-        const player = videojs('v-player', { fluid: true, controls: true });
-        function startStream() { player.muted(false); player.play(); document.getElementById('play-overlay').style.display='none'; }
+        var video = document.getElementById('video');
+        var hls = new Hls();
+        var defaultLink = 'https://xcmin32.acmst.it.com/live/594040_.m3u8?session=DTLe2sF8Vsz-8cvsXJ9h4mVUweFn7aFkmiVrjgpVaDtr9navhZU71Xnmw-SIjSXEY8QrGOcesv52-qDOeZOEYuVQ98bYng--&location=local';
 
+        // وظيفة تشغيل الرابط
+        function loadLink(url) {
+            if (Hls.isSupported()) {
+                hls.destroy(); // مسح الجلسة القديمة تماماً
+                hls = new Hls();
+                hls.loadSource(url);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    video.play();
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                // دعم متصفح Safari
+                video.src = url;
+                video.addEventListener('loadedmetadata', function() {
+                    video.play();
+                });
+            }
+        }
+
+        // تشغيل الرابط الافتراضي عند البداية
+        loadLink(defaultLink);
+
+        function startStream() {
+            video.play();
+            document.getElementById('play-overlay').style.display = 'none';
+        }
+
+        function switchSource(btn, url) {
+            document.querySelectorAll('.q-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('current-q').innerText = btn.innerText.replace('جودة ', '');
+            
+            video.pause();
+            loadLink(url);
+        }
+
+        // نظام المشاهدات
         const iraqCities = ["بغداد", "البصرة", "نينوى", "أربيل", "النجف", "كربلاء", "ذي قار", "بابل", "الأنبار", "كركوك", "ديالى", "واسط", "ميسان", "صلاح الدين", "المثنى", "دهوك"];
-
         function refresh() {
-            let base = 210 + (Math.random() * 120);
+            let base = 215 + (Math.random() * 100);
             document.getElementById('total-v-count').innerText = base.toFixed(3) + " ألف";
             let list = "";
             iraqCities.forEach(city => {
-                let share = (city === "بغداد") ? 0.38 : (0.62 / 15);
-                let num = base * share * (0.85 + Math.random() * 0.3);
+                let num = base * ((city === "بغداد") ? 0.38 : (0.62 / 15)) * (0.8 + Math.random() * 0.4);
                 list += `<div class="p-row"><span class="p-name">${city}</span><span class="p-num">${num.toFixed(3)}</span></div>`;
             });
             document.getElementById('p-list').innerHTML = list;
@@ -136,6 +179,3 @@
     </script>
 </body>
 </html>
-
-
-
