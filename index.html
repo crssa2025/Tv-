@@ -2,137 +2,210 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>البث المباشر | العراق ضد بوليفيا</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>بث مباشر | العراق 🇮🇶 ضد بوليفيا 🇧🇴</title>
+    
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet">
+
     <style>
+        :root {
+            --main-gold: #c5a059;
+            --iraq-red: #ce1126;
+            --field-green: #007a33;
+            --dark-bg: #0a0a0a;
+        }
+
         body {
-            background-color: #0f0f0f;
+            background-color: var(--dark-bg);
             color: white;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
+            padding-bottom: 50px;
+        }
+
+        /* رأس الصفحة - تصميم رياضي */
+        .header {
+            background: linear-gradient(to bottom, #1a1a1a, #000);
+            padding: 15px;
+            text-align: center;
+            border-bottom: 3px solid var(--main-gold);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .live-tag {
+            background-color: var(--iraq-red);
+            color: white;
+            padding: 3px 12px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+            animation: pulse 1.5s infinite;
+            display: inline-block;
+            margin-bottom: 8px;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .match-title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin: 10px 0;
+        }
+
+        .team-box {
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-
-        .header {
-            width: 100%;
-            padding: 20px;
-            background: linear-gradient(145deg, #1a1a1a, #000);
-            text-align: center;
-            border-bottom: 2px solid #00ff00;
-            box-shadow: 0 4px 15px rgba(0, 255, 0, 0.2);
-        }
-
-        .live-indicator {
-            background-color: red;
-            padding: 5px 12px;
-            border-radius: 5px;
             font-weight: bold;
-            animation: blink 1s infinite;
-            display: inline-block;
-            margin-bottom: 10px;
         }
 
-        @keyframes blink {
-            0% { opacity: 1; }
-            50% { opacity: 0.5; }
-            100% { opacity: 1; }
+        .vs-circle {
+            background: var(--main-gold);
+            color: black;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: 900;
+            font-size: 14px;
         }
 
-        .container {
+        /* حاوية المشغل */
+        .main-container {
             width: 95%;
-            max-width: 900px;
-            margin-top: 20px;
+            max-width: 1000px;
+            margin: 20px auto;
         }
 
-        /* تنسيق مشغل الفيديو */
-        .video-container {
-            position: relative;
-            border-radius: 12px;
+        .player-wrapper {
+            background: #000;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            border: 1px solid #333;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
         }
 
+        /* تعديل مشغل الفيديو ليناسب الموبايل مع التدوير */
         .video-js {
-            width: 100%;
-            height: 500px;
+            width: 100% !important;
+            height: 500px !important;
         }
 
-        /* عداد المشاهدات */
-        .stats-bar {
-            background: #1e1e1e;
+        @media (max-width: 768px) {
+            .video-js { height: 250px !important; }
+        }
+
+        /* بار الإحصائيات السفلي */
+        .bottom-stats {
+            background: #161616;
             padding: 15px;
-            border-radius: 0 0 12px 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid #333;
+            border-radius: 0 0 15px 15px;
+            border: 1px solid #333;
+            border-top: none;
         }
 
-        .viewers-count {
+        .viewer-count {
             color: #00ff00;
-            font-size: 1.2rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+        }
+
+        .owner-tag {
+            color: var(--main-gold);
+            font-size: 14px;
             font-weight: bold;
         }
 
-        .match-info {
-            font-size: 1.1rem;
-        }
-
-        @media (max-width: 600px) {
-            .video-js { height: 250px; }
-            .stats-bar { flex-direction: column; gap: 10px; }
+        /* تأثيرات إضافية */
+        .quality-badge {
+            background: #222;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            border: 1px solid #444;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <div class="live-indicator">مباشر LIVE</div>
-        <h1 style="margin: 5px 0;">🇮🇶 العراق vs بوليفيا 🇧🇴</h1>
-        <p>تصفيات دولية ودية - 1 أبريل 2026</p>
+        <div class="live-tag">🔴 مباشر الآن</div>
+        <div class="match-title">
+            <div class="team-box">
+                <span style="font-size: 30px;">🇮🇶</span>
+                <span>العراق</span>
+            </div>
+            <div class="vs-circle">VS</div>
+            <div class="team-box">
+                <span style="font-size: 30px;">🇧🇴</span>
+                <span>بوليفيا</span>
+            </div>
+        </div>
+        <div style="font-size: 13px; color: #aaa;">تصفيات دولية ودية - ملعب البصرة الدولي</div>
     </div>
 
-    <div class="container">
-        <div class="video-container">
-            <video id="my-video" class="video-js vjs-big-play-centered" controls preload="auto" data-setup='{}'>
-                <source src="https://min2-36.godady.it.com/live/35767_.m3u8?session=1gk-8YnO6CrM1meB8arvptdMvT1FGJMQ7HMd3O1hGU7-QgicHpxAXZtxAZKu4Y1jtQbMRxLUSh3RTrYiFcPbTetpoyJ2K3Dc&location=localdBZK-Um36TVPvTiD&location=local" type="application/x-mpegURL">
+    <div class="main-container">
+        <div class="player-wrapper">
+            <video id="abboud-player" class="video-js vjs-theme-city vjs-big-play-centered" controls preload="auto" playsinline>
+                <source src="https://min2-36.godady.it.com/live/35767_.m3u8?session=1gk-8YnO6CrM1meB8arvptdMvT1FGJMQ7HMd3O1hGU7-QgicHpxAXZtxAZKu4Y1jtQbMRxLUSh3RTrYiFcPbTetpoyJ2K3Dc&location=local" type="application/x-mpegURL">
             </video>
         </div>
 
-        <div class="stats-bar">
-            <div class="match-info">جودة البث: <span style="color: #00bfff;">1080p FHD</span></div>
-            <div class="viewers-count">
-                👁️ <span id="count">220,123</span> مشاهد الآن
+        <div class="bottom-stats">
+            <div class="viewer-count">
+                <span style="width: 10px; height: 10px; background: #00ff00; border-radius: 50%;"></span>
+                <span id="live-viewers">220,000</span> مشاهد الآن
             </div>
+            <div class="owner-tag">بواسطة: عبود</div>
+            <div class="quality-badge">1080p Ultra HD</div>
         </div>
     </div>
 
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
 
     <script>
-        // دالة لتحديث عداد المشاهدات بشكل وهمي وديناميكي
-        function updateViewers() {
-            const countElement = document.getElementById('count');
-            
-            // تحديد المدى بين 200,000 و 250,000
-            let min = 200000;
-            let max = 250000;
-            
-            // توليد رقم عشوائي ضمن النطاق
-            let currentCount = Math.floor(Math.random() * (max - min + 1)) + min;
-            
-            // إضافة الفواصل الرقمية للجمالية (مثل 220,123)
-            countElement.innerText = currentCount.toLocaleString('en-US');
+        // إعداد المشغل ليدعم التدوير والتكبير التلقائي
+        var player = videojs('abboud-player', {
+            fluid: true, // يجعله متجاوب مع حجم الشاشة
+            controlBar: {
+                children: [
+                    'playToggle',
+                    'volumePanel',
+                    'currentTimeDisplay',
+                    'timeDivider',
+                    'durationDisplay',
+                    'progressControl',
+                    'liveDisplay',
+                    'remainingTimeDisplay',
+                    'fullscreenToggle', // زر التكبير
+                ],
+            }
+        });
+
+        // عداد المشاهدين الديناميكي (صعود ونزول واقعي)
+        let count = 220145;
+        function updateCount() {
+            let change = Math.floor(Math.random() * 200) - 80; // تغيير عشوائي بسيط
+            count += change;
+            document.getElementById('live-viewers').innerText = count.toLocaleString();
         }
-
-        // تحديث الرقم كل 5 ثواني لإعطاء حركة للموقع
-        setInterval(updateViewers, 5000);
-
-        // تشغيل الدالة فور تحميل الصفحة
-        updateViewers();
+        setInterval(updateCount, 3000);
     </script>
 </body>
 </html>
