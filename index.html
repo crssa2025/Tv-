@@ -2,166 +2,137 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>البث الخرافي بواسطة عبود</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>البث المباشر | العراق ضد بوليفيا</title>
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-    
     <style>
-        /* التنسيق الأساسي والخلفية الديناميكية */
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #050505; /* أسود عميق جداً */
-            color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            display: flex; flex-direction: column; overflow: hidden;
-            /* خلفية متحركة بلمسة تكنولوجية */
-            background-image: 
-                radial-gradient(circle at 10% 10%, rgba(0, 100, 255, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 90% 90%, rgba(0, 200, 255, 0.05) 0%, transparent 50%),
-                linear-gradient(135deg, #050505 0%, #0a1a3a 100%);
-            animation: gradientBG 15s ease infinite;
-            background-size: 400% 400%;
+        body {
+            background-color: #0f0f0f;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .header {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(145deg, #1a1a1a, #000);
+            text-align: center;
+            border-bottom: 2px solid #00ff00;
+            box-shadow: 0 4px 15px rgba(0, 255, 0, 0.2);
         }
 
-        /* حاوية الفيديو - سينمائية */
-        .video-wrapper {
-            flex: 1; position: relative;
-            background-color: transparent;
-            display: flex; justify-content: center; align-items: center;
-            box-shadow: 0 0 30px rgba(0, 150, 255, 0.1) inset;
+        .live-indicator {
+            background-color: red;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            animation: blink 1s infinite;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .container {
+            width: 95%;
+            max-width: 900px;
+            margin-top: 20px;
+        }
+
+        /* تنسيق مشغل الفيديو */
+        .video-container {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
         }
 
         .video-js {
-            width: 100% !important; height: 100% !important;
-            border-radius: 4px;
-            overflow: hidden;
+            width: 100%;
+            height: 500px;
         }
 
-        /* شريط المعلومات السفلي - زجاجي احترافي */
-        .info-bar {
-            height: 70px;
-            background: rgba(10, 20, 40, 0.6); /* شفاف جزئياً */
-            backdrop-filter: blur(10px); /* تأثير ضبابي */
-            -webkit-backdrop-filter: blur(10px);
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 25px;
-            border-top: 1px solid rgba(0, 150, 255, 0.2);
-            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
-            z-index: 10;
+        /* عداد المشاهدات */
+        .stats-bar {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 0 0 12px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #333;
         }
 
-        /* تصميم اسم عبود الذهبي */
-        .user-name-container {
-            display: flex; align-items: center; gap: 10px;
-        }
-        
-        .user-avatar {
-            width: 35px; height: 35px; background: linear-gradient(135deg, #FFD700, #FFA500);
-            border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            color: #111; font-weight: bold; font-size: 18px;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        .viewers-count {
+            color: #00ff00;
+            font-size: 1.2rem;
+            font-weight: bold;
         }
 
-        .user-name {
-            font-size: 18px; font-weight: bold;
-            background: linear-gradient(90deg, #fff, #FFD700, #fff);
-            -webkit-background-clip: text; background-clip: text;
-            color: transparent; animation: shineText 3s linear infinite;
+        .match-info {
+            font-size: 1.1rem;
         }
 
-        @keyframes shineText {
-            0% { background-position: -200%; }
-            100% { background-position: 200%; }
-        }
-
-        /* تصميم حالة البث وعداد المشاهدين */
-        .live-status-container {
-            display: flex; align-items: center; gap: 12px;
-        }
-
-        .live-badge {
-            display: flex; align-items: center; gap: 6px;
-            background: rgba(255, 0, 0, 0.2);
-            padding: 6px 14px; border-radius: 20px;
-            border: 1px solid rgba(255, 0, 0, 0.5);
-            text-transform: uppercase; font-size: 12px; font-weight: bold; letter-spacing: 1px;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
-        }
-
-        .red-dot {
-            width: 10px; height: 10px; background-color: #ff0000;
-            border-radius: 50%;
-            animation: pulseDot 1.5s infinite;
-        }
-
-        .viewer-count {
-            font-size: 16px; color: #fff; font-weight: 900;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-            font-family: 'Courier New', Courier, monospace; /* خط رقمي */
-        }
-
-        @keyframes pulseDot {
-            0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.8); }
-            70% { box-shadow: 0 0 0 12px rgba(255, 0, 0, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+        @media (max-width: 600px) {
+            .video-js { height: 250px; }
+            .stats-bar { flex-direction: column; gap: 10px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="video-wrapper">
-        <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" playsinline muted autoplay>
-            <source src="https://min2-36.godady.it.com/live/35767_.m3u8?session=1gk-8YnO6CrM1meB8arvptdMvT1FGJMQ7HMd3O1hGU7-QgicHpxAXZtxAZKu4Y1jtQbMRxLUSh3RTrYiFcPbTetpoyJ2K3Dc&location=local" type="application/x-mpegURL">
-        </video>
+    <div class="header">
+        <div class="live-indicator">مباشر LIVE</div>
+        <h1 style="margin: 5px 0;">🇮🇶 العراق vs بوليفيا 🇧🇴</h1>
+        <p>تصفيات دولية ودية - 1 أبريل 2026</p>
     </div>
 
-    <div class="info-bar">
-        <div class="user-name-container">
-            <div class="user-avatar">ع</div>
-            <div class="user-name">بث بواسطة: عبود</div>
+    <div class="container">
+        <div class="video-container">
+            <video id="my-video" class="video-js vjs-big-play-centered" controls preload="auto" data-setup='{}'>
+                <source src="https://min2-36.godady.it.com/live/35767_.m3u8?session=1gk-8YnO6CrM1meB8arvptdMvT1FGJMQ7HMd3O1hGU7-QgicHpxAXZtxAZKu4Y1jtQbMRxLUSh3RTrYiFcPbTetpoyJ2K3Dc&location=localdBZK-Um36TVPvTiD&location=local" type="application/x-mpegURL">
+            </video>
         </div>
-        
-        <div class="live-status-container">
-            <div class="live-badge">
-                <div class="red-dot"></div>
-                مباشر
+
+        <div class="stats-bar">
+            <div class="match-info">جودة البث: <span style="color: #00bfff;">1080p FHD</span></div>
+            <div class="viewers-count">
+                👁️ <span id="count">220,123</span> مشاهد الآن
             </div>
-            <div class="viewer-count" id="count">220,000 مشاهد</div>
         </div>
     </div>
 
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
+
     <script>
-        // سكربت عداد المشاهدين الديناميكي (يصعد وينزل بذكاء)
-        let currentViewers = 220000; // الرقم الأساسي
-
+        // دالة لتحديث عداد المشاهدات بشكل وهمي وديناميكي
         function updateViewers() {
-            // تحديد قيمة التغيير العشوائي (بين -500 و +500) ليكون النزول والصعود معقولاً
-            const change = Math.floor(Math.random() * 1001) - 500; 
+            const countElement = document.getElementById('count');
             
-            // إضافة التغيير للرقم الحالي
-            currentViewers += change;
-
-            // التأكد من أن الرقم يبقى ضمن الحدود المعقولة (بين 219ألف و 240ألف مثلاً)
-            if (currentViewers < 219000) currentViewers = 219500;
-            if (currentViewers > 240000) currentViewers = 239500;
-
-            // تنسيق الرقم بفاصلة (مثال: 220,234)
-            const formattedCount = currentViewers.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            // تحديد المدى بين 200,000 و 250,000
+            let min = 200000;
+            let max = 250000;
             
-            // تحديث الواجهة
-            document.getElementById('count').innerText = formattedCount + " مشاهد";
+            // توليد رقم عشوائي ضمن النطاق
+            let currentCount = Math.floor(Math.random() * (max - min + 1)) + min;
+            
+            // إضافة الفواصل الرقمية للجمالية (مثل 220,123)
+            countElement.innerText = currentCount.toLocaleString('en-US');
         }
 
-        // تحديث الرقم كل ثانية ونصف (ليكون ديناميكياً جداً)
-        setInterval(updateViewers, 1500);
-        updateViewers(); // تحديث أولي عند التحميل
+        // تحديث الرقم كل 5 ثواني لإعطاء حركة للموقع
+        setInterval(updateViewers, 5000);
+
+        // تشغيل الدالة فور تحميل الصفحة
+        updateViewers();
     </script>
 </body>
 </html>
