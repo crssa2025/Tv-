@@ -3,209 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>بث مباشر | العراق 🇮🇶 ضد بوليفيا 🇧🇴</title>
+    <title>البث المباشر | عبود</title>
     
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-    <link href="https://unpkg.com/@videojs/themes@1/dist/city/index.css" rel="stylesheet">
+    <link href="https://unpkg.com/@videojs/themes@1/dist/fantasy/index.css" rel="stylesheet">
 
     <style>
         :root {
-            --main-gold: #c5a059;
-            --iraq-red: #ce1126;
-            --field-green: #007a33;
-            --dark-bg: #0a0a0a;
+            --neon-blue: #00d2ff;
+            --neon-purple: #9d50bb;
+            --live-red: #ff0055;
+            --glass: rgba(255, 255, 255, 0.05);
         }
 
-        body {
-            background-color: var(--dark-bg);
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding-bottom: 50px;
+        body, html {
+            margin: 0; padding: 0; width: 100%; height: 100%;
+            background: #050505;
+            color: white; font-family: 'Segoe UI', sans-serif;
+            overflow-x: hidden;
         }
 
-        /* رأس الصفحة - تصميم رياضي */
-        .header {
-            background: linear-gradient(to bottom, #1a1a1a, #000);
-            padding: 15px;
-            text-align: center;
-            border-bottom: 3px solid var(--main-gold);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        /* الخلفية الديناميكية الحركية */
+        .bg-animate {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, #050505, #0a1a3a, #050505);
+            z-index: -1;
         }
-
-        .live-tag {
-            background-color: var(--iraq-red);
-            color: white;
-            padding: 3px 12px;
-            border-radius: 4px;
-            font-size: 14px;
-            font-weight: bold;
-            animation: pulse 1.5s infinite;
-            display: inline-block;
-            margin-bottom: 8px;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.05); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .match-title {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 15px;
-            margin: 10px 0;
-        }
-
-        .team-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            font-weight: bold;
-        }
-
-        .vs-circle {
-            background: var(--main-gold);
-            color: black;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 900;
-            font-size: 14px;
-        }
-
-        /* حاوية المشغل */
-        .main-container {
-            width: 95%;
-            max-width: 1000px;
-            margin: 20px auto;
-        }
-
-        .player-wrapper {
-            background: #000;
-            border-radius: 15px;
+        .circles {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             overflow: hidden;
-            border: 1px solid #333;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+        }
+        .circles li {
+            position: absolute; display: block; list-style: none;
+            width: 20px; height: 20px; background: rgba(0, 210, 255, 0.1);
+            animation: animate 25s linear infinite; bottom: -150px;
+        }
+        @keyframes animate {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; border-radius: 0; }
+            100% { transform: translateY(-1000px) rotate(720deg); opacity: 0; border-radius: 50%; }
+        }
+        /* توزيع الجزيئات */
+        .circles li:nth-child(1){ left: 25%; width: 80px; height: 80px; animation-delay: 0s; }
+        .circles li:nth-child(2){ left: 10%; width: 20px; height: 20px; animation-delay: 2s; animation-duration: 12s; }
+        .circles li:nth-child(3){ left: 70%; width: 20px; height: 20px; animation-delay: 4s; }
+        .circles li:nth-child(4){ left: 40%; width: 60px; height: 60px; animation-delay: 0s; animation-duration: 18s; }
+
+        /* رأس الصفحة */
+        .header {
+            padding: 20px; text-align: center;
+            background: var(--glass); backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* تعديل مشغل الفيديو ليناسب الموبايل مع التدوير */
+        .live-box {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--live-red); padding: 5px 15px;
+            border-radius: 50px; font-weight: bold; font-size: 14px;
+            box-shadow: 0 0 15px var(--live-red);
+        }
+
+        .match-card {
+            margin: 15px 0; font-size: 22px; font-weight: 900;
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
+        }
+
+        /* حاوية الفيديو */
+        .player-container {
+            width: 95%; max-width: 950px; margin: 20px auto;
+            position: relative; border-radius: 20px;
+            padding: 5px; background: linear-gradient(var(--neon-blue), var(--neon-purple));
+            box-shadow: 0 0 30px rgba(0, 210, 255, 0.3);
+        }
+
         .video-js {
-            width: 100% !important;
-            height: 500px !important;
+            width: 100% !important; height: auto; aspect-ratio: 16/9;
+            border-radius: 18px !important;
         }
 
-        @media (max-width: 768px) {
-            .video-js { height: 250px !important; }
+        /* بار الإحصائيات الفخم */
+        .stats-panel {
+            width: 95%; max-width: 950px; margin: 10px auto;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 20px; background: var(--glass);
+            backdrop-filter: blur(10px); border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* بار الإحصائيات السفلي */
-        .bottom-stats {
-            background: #161616;
-            padding: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 0 0 15px 15px;
-            border: 1px solid #333;
-            border-top: none;
+        .viewers-badge {
+            display: flex; align-items: center; gap: 10px;
+            font-size: 18px; font-weight: bold; color: #00ffcc;
         }
 
-        .viewer-count {
-            color: #00ff00;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 18px;
+        .viewers-badge span { color: #fff; }
+
+        .owner-info {
+            font-size: 14px; font-weight: bold;
+            background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .owner-tag {
-            color: var(--main-gold);
-            font-size: 14px;
-            font-weight: bold;
+        @keyframes pulse-eye {
+            0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; }
         }
-
-        /* تأثيرات إضافية */
-        .quality-badge {
-            background: #222;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            border: 1px solid #444;
-        }
+        .eye-icon { animation: pulse-eye 2s infinite; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <div class="live-tag">🔴 مباشر الآن</div>
-        <div class="match-title">
-            <div class="team-box">
-                <span style="font-size: 30px;">🇮🇶</span>
-                <span>العراق</span>
-            </div>
-            <div class="vs-circle">VS</div>
-            <div class="team-box">
-                <span style="font-size: 30px;">🇧🇴</span>
-                <span>بوليفيا</span>
-            </div>
-        </div>
-        <div style="font-size: 13px; color: #aaa;">تصفيات دولية ودية - ملعب البصرة الدولي</div>
+    <div class="bg-animate">
+        <ul class="circles">
+            <li></li><li></li><li></li><li></li><li></li><li></li>
+        </ul>
     </div>
 
-    <div class="main-container">
-        <div class="player-wrapper">
-            <video id="abboud-player" class="video-js vjs-theme-city vjs-big-play-centered" controls preload="auto" playsinline>
-                <source src="https://min2-36.godady.it.com/live/35767_.m3u8?session=1gk-8YnO6CrM1meB8arvptdMvT1FGJMQ7HMd3O1hGU7-QgicHpxAXZtxAZKu4Y1jtQbMRxLUSh3RTrYiFcPbTetpoyJ2K3Dc&location=local" type="application/x-mpegURL">
-            </video>
-        </div>
+    <div class="header">
+        <div class="live-box">🔴 مباشر الآن</div>
+        <div class="match-card">العراق 🇮🇶 ضد بوليفيا 🇧🇴</div>
+        <div style="color: var(--neon-blue); font-size: 13px;">بث فائق الجودة 4K | تعليق عربي</div>
+    </div>
 
-        <div class="bottom-stats">
-            <div class="viewer-count">
-                <span style="width: 10px; height: 10px; background: #00ff00; border-radius: 50%;"></span>
-                <span id="live-viewers">220,000</span> مشاهد الآن
-            </div>
-            <div class="owner-tag">بواسطة: عبود</div>
-            <div class="quality-badge">1080p Ultra HD</div>
+    <div class="player-container">
+        <video id="abboud-stream" class="video-js vjs-theme-fantasy" controls preload="auto" playsinline poster="https://th.bing.com/th/id/OIG.YourImageHere">
+            <source src="https://min2-36.godady.it.com/live/35767_.m3u8?session=1gk-8YnO6CrM1meB8arvptdMvT1FGJMQ7HMd3O1hGU7-QgicHpxAXZtxAZKu4Y1jtQbMRxLUSh3RTrYiFcPbTetpoyJ2K3Dc&location=local" type="application/x-mpegURL">
+        </video>
+    </div>
+
+    <div class="stats-panel">
+        <div class="viewers-badge">
+            <span class="eye-icon">👁️</span>
+            <span id="v-count">220.123</span> <span>ألف مشاهد</span>
         </div>
+        <div class="owner-info">بواسطة: عبود</div>
     </div>
 
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
 
     <script>
-        // إعداد المشغل ليدعم التدوير والتكبير التلقائي
-        var player = videojs('abboud-player', {
-            fluid: true, // يجعله متجاوب مع حجم الشاشة
+        // إعداد المشغل
+        var player = videojs('abboud-stream', {
+            fluid: true,
+            playbackRates: [0.5, 1, 1.5, 2],
             controlBar: {
-                children: [
-                    'playToggle',
-                    'volumePanel',
-                    'currentTimeDisplay',
-                    'timeDivider',
-                    'durationDisplay',
-                    'progressControl',
-                    'liveDisplay',
-                    'remainingTimeDisplay',
-                    'fullscreenToggle', // زر التكبير
-                ],
+                skipButtons: { forward: 10, backward: 10 }
             }
         });
 
-        // عداد المشاهدين الديناميكي (صعود ونزول واقعي)
-        let count = 220145;
-        function updateCount() {
-            let change = Math.floor(Math.random() * 200) - 80; // تغيير عشوائي بسيط
-            count += change;
-            document.getElementById('live-viewers').innerText = count.toLocaleString();
+        // عداد المشاهدين الديناميكي (ألف)
+        let viewers = 220.123;
+        function updateViewers() {
+            // إضافة أو طرح جزء بسيط جداً من الألف
+            let change = (Math.random() * 0.150) - 0.070;
+            viewers += change;
+            
+            // التأكد من بقاء الرقم جميل (3 مراتب بعد الفاصلة)
+            document.getElementById('v-count').innerText = viewers.toFixed(3);
         }
-        setInterval(updateCount, 3000);
+        
+        setInterval(updateViewers, 2500);
     </script>
 </body>
 </html>
