@@ -3,56 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>البث المباشر</title>
+    <title>البث الخرافي بواسطة عبود</title>
+    
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    
     <style>
+        /* التنسيق الأساسي والخلفية الديناميكية */
         body, html {
             margin: 0; padding: 0; width: 100%; height: 100%;
-            background-color: #000; /* خلفية سوداء بالكامل */
-            color: white; font-family: sans-serif;
+            background-color: #050505; /* أسود عميق جداً */
+            color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex; flex-direction: column; overflow: hidden;
+            /* خلفية متحركة بلمسة تكنولوجية */
+            background-image: 
+                radial-gradient(circle at 10% 10%, rgba(0, 100, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 90% 90%, rgba(0, 200, 255, 0.05) 0%, transparent 50%),
+                linear-gradient(135deg, #050505 0%, #0a1a3a 100%);
+            animation: gradientBG 15s ease infinite;
+            background-size: 400% 400%;
         }
 
-        /* حاوية الفيديو لتأخذ المساحة المتاحة */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* حاوية الفيديو - سينمائية */
         .video-wrapper {
-            flex: 1; /* يأخذ باقي مساحة الصفحة */
-            position: relative;
-            background-color: #000;
+            flex: 1; position: relative;
+            background-color: transparent;
+            display: flex; justify-content: center; align-items: center;
+            box-shadow: 0 0 30px rgba(0, 150, 255, 0.1) inset;
         }
 
         .video-js {
             width: 100% !important; height: 100% !important;
+            border-radius: 4px;
+            overflow: hidden;
         }
 
-        /* شريط المعلومات أسفل الفيديو */
+        /* شريط المعلومات السفلي - زجاجي احترافي */
         .info-bar {
-            height: 60px;
-            background: rgba(20, 20, 20, 0.95);
+            height: 70px;
+            background: rgba(10, 20, 40, 0.6); /* شفاف جزئياً */
+            backdrop-filter: blur(10px); /* تأثير ضبابي */
+            -webkit-backdrop-filter: blur(10px);
             display: flex; justify-content: space-between; align-items: center;
-            padding: 0 15px;
-            border-top: 1px solid #333;
+            padding: 0 25px;
+            border-top: 1px solid rgba(0, 150, 255, 0.2);
+            box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.5);
+            z-index: 10;
         }
 
-        .user-name { font-size: 16px; font-weight: bold; color: #fff; }
+        /* تصميم اسم عبود الذهبي */
+        .user-name-container {
+            display: flex; align-items: center; gap: 10px;
+        }
         
-        .live-status {
-            display: flex; align-items: center; gap: 8px;
-            background: rgba(255, 0, 0, 0.1);
-            padding: 5px 10px; border-radius: 20px;
-            border: 1px solid rgba(255,0,0,0.3);
+        .user-avatar {
+            width: 35px; height: 35px; background: linear-gradient(135deg, #FFD700, #FFA500);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            color: #111; font-weight: bold; font-size: 18px;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .user-name {
+            font-size: 18px; font-weight: bold;
+            background: linear-gradient(90deg, #fff, #FFD700, #fff);
+            -webkit-background-clip: text; background-clip: text;
+            color: transparent; animation: shineText 3s linear infinite;
+        }
+
+        @keyframes shineText {
+            0% { background-position: -200%; }
+            100% { background-position: 200%; }
+        }
+
+        /* تصميم حالة البث وعداد المشاهدين */
+        .live-status-container {
+            display: flex; align-items: center; gap: 12px;
+        }
+
+        .live-badge {
+            display: flex; align-items: center; gap: 6px;
+            background: rgba(255, 0, 0, 0.2);
+            padding: 6px 14px; border-radius: 20px;
+            border: 1px solid rgba(255, 0, 0, 0.5);
+            text-transform: uppercase; font-size: 12px; font-weight: bold; letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.3);
         }
 
         .red-dot {
             width: 10px; height: 10px; background-color: #ff0000;
             border-radius: 50%;
-            animation: pulse 1.5s infinite;
+            animation: pulseDot 1.5s infinite;
         }
 
-        .viewer-count { font-size: 14px; color: #eee; font-weight: bold; }
+        .viewer-count {
+            font-size: 16px; color: #fff; font-weight: 900;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            font-family: 'Courier New', Courier, monospace; /* خط رقمي */
+        }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+        @keyframes pulseDot {
+            0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.8); }
+            70% { box-shadow: 0 0 0 12px rgba(255, 0, 0, 0); }
             100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
         }
     </style>
@@ -60,35 +116,51 @@
 <body>
 
     <div class="video-wrapper">
-        <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" playsinline>
+        <video id="my-video" class="video-js vjs-default-skin vjs-big-play-centered" controls preload="auto" playsinline muted autoplay>
             <source src="https://min2-36.godady.it.com/live/35767_.m3u8?session=1gk-8YnO6CrM1meB8arvptdMvT1FGJMQ7HMd3O1hGU7-QgicHpxAXZtxAZKu4Y1jtQbMRxLUSh3RTrYiFcPbTetpoyJ2K3Dc&location=local" type="application/x-mpegURL">
         </video>
     </div>
 
     <div class="info-bar">
-        <div class="user-name">بث بواسطة: [ضع اسمك هنا]</div>
+        <div class="user-name-container">
+            <div class="user-avatar">ع</div>
+            <div class="user-name">بث بواسطة: عبود</div>
+        </div>
         
-        <div class="live-status">
-            <div class="red-dot"></div>
+        <div class="live-status-container">
+            <div class="live-badge">
+                <div class="red-dot"></div>
+                مباشر
+            </div>
             <div class="viewer-count" id="count">220,000 مشاهد</div>
         </div>
     </div>
 
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
     <script>
-        // سكربت عداد المشاهدين الوهمي
+        // سكربت عداد المشاهدين الديناميكي (يصعد وينزل بذكاء)
+        let currentViewers = 220000; // الرقم الأساسي
+
         function updateViewers() {
-            const min = 220000;
-            const max = 240000;
-            // توليد رقم عشوائي بين الرقمين
-            const count = Math.floor(Math.random() * (max - min + 1)) + min;
-            // تنسيق الرقم بفاصلة (مثال: 230,500)
-            const formattedCount = count.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            // تحديد قيمة التغيير العشوائي (بين -500 و +500) ليكون النزول والصعود معقولاً
+            const change = Math.floor(Math.random() * 1001) - 500; 
+            
+            // إضافة التغيير للرقم الحالي
+            currentViewers += change;
+
+            // التأكد من أن الرقم يبقى ضمن الحدود المعقولة (بين 219ألف و 240ألف مثلاً)
+            if (currentViewers < 219000) currentViewers = 219500;
+            if (currentViewers > 240000) currentViewers = 239500;
+
+            // تنسيق الرقم بفاصلة (مثال: 220,234)
+            const formattedCount = currentViewers.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            
+            // تحديث الواجهة
             document.getElementById('count').innerText = formattedCount + " مشاهد";
         }
 
-        // تحديث الرقم كل 5 ثواني
-        setInterval(updateViewers, 5000);
+        // تحديث الرقم كل ثانية ونصف (ليكون ديناميكياً جداً)
+        setInterval(updateViewers, 1500);
         updateViewers(); // تحديث أولي عند التحميل
     </script>
 </body>
