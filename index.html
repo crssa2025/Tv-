@@ -1,124 +1,114 @@
+
+
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>بث عبود الرسمي</title>
+    <title>بث عبدالله زيدان | قناة ترايد مود</title>
     
     <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
-    <link href="https://unpkg.com/@videojs/themes@1/dist/fantasy/index.css" rel="stylesheet">
-
     <style>
-        :root {
-            --neon-cyan: #00d2ff;
-            --glass: rgba(255, 255, 255, 0.03);
+        :root { --neon: #00d2ff; --gold: #ffd700; --glass: rgba(255, 255, 255, 0.05); }
+        body, html { margin: 0; padding: 0; background: #01060b; color: white; font-family: 'Segoe UI', Tahoma, sans-serif; }
+        
+        /* الهيدر الجديد */
+        .top-header { 
+            padding: 15px; 
+            background: linear-gradient(to bottom, rgba(0,210,255,0.1), rgba(0,0,0,0.8)); 
+            border-bottom: 1px solid var(--neon);
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
+        .stream-by { font-size: 14px; color: #ccc; letter-spacing: 1px; }
+        .stream-by b { color: #fff; font-size: 18px; text-shadow: 0 0 10px var(--neon); }
+        .channel-name { color: var(--gold); font-weight: bold; font-size: 16px; display: block; margin-top: 5px; }
 
-        body, html {
-            margin: 0; padding: 0; width: 100%; height: 100%;
-            background: #02060c; color: white;
-            font-family: 'Segoe UI', Tahoma, sans-serif;
-            overflow-x: hidden;
-        }
+        .container { width: 98%; max-width: 1100px; margin: 10px auto; }
 
-        #stars {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; background: radial-gradient(circle, #0a1931, #02060c);
-        }
+        /* منطقة الفيديو */
+        .v-box { position: relative; border-radius: 15px; overflow: hidden; background: #000; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 10px; }
+        .video-js { width: 100% !important; height: auto !important; aspect-ratio: 16/9 !important; }
 
-        .top-nav {
-            padding: 15px 20px;
-            display: flex; justify-content: space-between; align-items: center;
-            background: rgba(0,0,0,0.2); backdrop-filter: blur(10px);
-        }
-        .brand { font-size: 16px; font-weight: 300; color: #eee; }
-        .brand b { color: var(--neon-cyan); font-weight: 800; margin-right: 5px; }
+        #play-overlay { position: absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:100; display:flex; justify-content:center; align-items:center; cursor:pointer; }
+        .play-btn { width:75px; height:75px; background:var(--neon); border-radius:50%; display:flex; justify-content:center; align-items:center; box-shadow: 0 0 25px var(--neon); }
+        .play-icon { width:0; height:0; border-top:16px solid transparent; border-bottom:16px solid transparent; border-left:28px solid #000; margin-left:8px; }
 
-        .container { width: 95%; max-width: 1000px; margin: 15px auto; }
+        /* التوزيع: بصف الثاني */
+        .flex-row { display: flex; gap: 10px; width: 100%; }
 
-        .match-title { text-align: center; margin-bottom: 15px; }
-        .match-title h2 { margin: 0; font-size: 20px; font-weight: 900; }
-        .match-title p { margin: 5px 0; font-size: 11px; color: var(--neon-cyan); opacity: 0.8; }
-
-        .video-box {
-            width: 100%;
-            background: #000;
-            border-radius: 20px;
-            overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-        }
-
-        .video-js {
-            width: 100% !important;
-            height: auto !important;
-            aspect-ratio: 16 / 9 !important; 
-        }
-
-        .stats-footer {
-            margin-top: 15px;
-            display: flex; flex-direction: column; gap: 10px;
-        }
-
-        .viewers-pill {
-            background: var(--glass);
-            border: 1px solid rgba(0, 210, 255, 0.2);
-            padding: 12px; border-radius: 15px;
-            display: flex; justify-content: center; align-items: center; gap: 10px;
-        }
-
-        .v-count { font-size: 22px; font-weight: 900; color: #fff; }
-        .v-label { font-size: 12px; color: var(--neon-cyan); font-weight: bold; }
-
-        .dot { width: 8px; height: 8px; background: #00ffcc; border-radius: 50%; box-shadow: 0 0 8px #00ffcc; }
-
-        .info-cards {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-        }
         .card {
-            background: var(--glass); padding: 12px; border-radius: 15px;
-            text-align: center; border: 1px solid rgba(255,255,255,0.05);
+            flex: 1;
+            background: var(--glass);
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 12px;
+            height: 420px;
+            display: flex;
+            flex-direction: column;
         }
-        .card span { display: block; font-size: 10px; color: #888; }
-        .card b { font-size: 13px; color: #ddd; }
+
+        .title { font-size: 16px; color: var(--neon); font-weight: bold; text-align: center; margin-bottom: 12px; border-bottom: 1px solid #333; padding-bottom: 6px; }
+
+        /* المعلومات (يمين) */
+        .item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.03); }
+        .lbl { color: #aaa; font-size: 14px; min-width: 65px; }
+        .val { color: #fff; font-size: 16px; font-weight: 800; }
+
+        /* المشاهدات (يسار) */
+        .scroll { flex: 1; overflow-y: auto; scrollbar-width: none; }
+        .p-row { display: flex; align-items: center; gap: 15px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .p-name { color: #eee; font-size: 16px; font-weight: bold; min-width: 75px; }
+        .p-num { color: var(--neon); font-size: 18px; font-weight: 900; font-family: 'Courier New', monospace; }
+
+        .total-box { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--neon); text-align: center; }
+        .total-num { font-size: 24px; font-weight: 900; color: #fff; }
+
+        @media (max-width: 600px) {
+            .flex-row { gap: 5px; }
+            .p-name { font-size: 14px; min-width: 60px; }
+            .p-num { font-size: 15px; }
+            .val { font-size: 12px; }
+            .stream-by b { font-size: 15px; }
+        }
     </style>
 </head>
 <body>
 
-    <canvas id="stars"></canvas>
-
-    <nav class="top-nav">
-        <div class="brand">بواسطة <b>عبود</b></div>
-        <div style="font-size: 10px; color: #00ffcc;">● مباشر HD</div>
-    </nav>
+    <header class="top-header">
+        <span class="stream-by">البث بواسطة <b>عبدالله زيدان</b></span>
+        <span class="channel-name"> ( نود التنويه أن هذا البث مخصص للمشاهدة الشخصية فقط، ويُمنع منعاً باتاً إعادة نشره أو بثه أو استخدامه بأي شكل من الأشكال بدون إذن مسبق من إدارة الموقع. أي محاولة لنسخ المحتوى أو إعادة توزيعه تعرض صاحبها للمساءلة القانونية )</span>
+    </header>
 
     <div class="container">
-        <div class="match-title">
-            <h2>العراق 🇮🇶 ضد بوليفيا 🇧🇴</h2>
-            <p>بث مباشر - تصفيات الملحق العالمي</p>
-        </div>
-
-        <div class="video-box">
-            <video id="abboud-stream" class="video-js vjs-theme-fantasy vjs-big-play-centered" controls preload="auto" playsinline>
+        <div class="v-box">
+            <div id="play-overlay" onclick="startStream()">
+                <div class="play-btn"><div class="play-icon"></div></div>
+            </div>
+            <video id="v-player" class="video-js" playsinline>
                 <source src="https://min2-36.godady.it.com/live/35767_.m3u8?session=1gk-8YnO6CrM1meB8arvptdMvT1FGJMQ7HMd3O1hGU7-QgicHpxAXZtxAZKu4Y1jtQbMRxLUSh3RTrYiFcPbTetpoyJ2K3Dc&location=local" type="application/x-mpegURL">
             </video>
         </div>
 
-        <div class="stats-footer">
-            <div class="viewers-pill">
-                <div class="dot"></div>
-                <span class="v-count" id="live-v">220.123</span>
-                <span class="v-label">ألف مشاهد الآن</span>
+        <div class="flex-row">
+            <div class="card">
+                <div class="title">بيانات اللقاء</div>
+                <div class="item"><span class="lbl">البطولة:</span><span class="val">الملحق العالمي</span></div>
+                <div class="item"><span class="lbl">الملعب:</span><span class="val">بي بي في آي</span></div>
+                <div class="item"><span class="lbl">المعلق:</span><span class="val">علي الكعبي</span></div>
+                <div class="item"><span class="lbl">الحكم:</span><span class="val">إيفان بارتون</span></div>
+                <div class="item"><span class="lbl">التاريخ:</span><span class="val" style="color:var(--gold)"> 2026/4/1</span></div>
+                <div class="item"><span class="lbl">الوقت:</span><span class="val">06:00 ص</span></div>
+                <div class="total-box"><small style="color:var(--neon)">بث حصري 4K Ultra HD</small></div>
             </div>
 
-            <div class="info-cards">
-                <div class="card">
-                    <span>المعلق</span>
-                    <b>علي سعيد الكعبي</b>
-                </div>
-                <div class="card">
-                    <span>الجودة</span>
-                    <b>1080p 60fps</b>
+            <div class="card">
+                <div class="title">مشاهدات العراق 🇮🇶</div>
+                <div class="scroll" id="p-list">
+                    </div>
+                <div class="total-box">
+                    <span class="total-num" id="total-v-count">245.810</span>
                 </div>
             </div>
         </div>
@@ -126,43 +116,26 @@
 
     <script src="https://vjs.zencdn.net/7.20.3/video.min.js"></script>
     <script>
-        // محرك النجوم
-        const canvas = document.getElementById('stars');
-        const ctx = canvas.getContext('2d');
-        let starArray = [];
-        function init() {
-            canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-            starArray = [];
-            for(let i=0; i<150; i++) {
-                starArray.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, s:Math.random()*1.5, o:Math.random()});
-            }
-        }
-        function animate() {
-            ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="white";
-            starArray.forEach(s => {
-                ctx.globalAlpha = s.o; ctx.beginPath(); ctx.arc(s.x, s.y, s.s, 0, Math.PI*2); ctx.fill();
-                s.y += 0.3; if(s.y > canvas.height) s.y = 0;
+        const player = videojs('v-player', { fluid: true, controls: true });
+        function startStream() { player.muted(false); player.play(); document.getElementById('play-overlay').style.display='none'; }
+
+        const iraqCities = ["بغداد", "البصرة", "نينوى", "أربيل", "النجف", "كربلاء", "ذي قار", "بابل", "الأنبار", "كركوك", "ديالى", "واسط", "ميسان", "صلاح الدين", "المثنى", "دهوك"];
+
+        function refresh() {
+            let base = 210 + (Math.random() * 120);
+            document.getElementById('total-v-count').innerText = base.toFixed(3) + " ألف";
+            let list = "";
+            iraqCities.forEach(city => {
+                let share = (city === "بغداد") ? 0.38 : (0.62 / 15);
+                let num = base * share * (0.85 + Math.random() * 0.3);
+                list += `<div class="p-row"><span class="p-name">${city}</span><span class="p-num">${num.toFixed(3)}</span></div>`;
             });
-            requestAnimationFrame(animate);
+            document.getElementById('p-list').innerHTML = list;
         }
-        init(); animate();
-
-        // إعداد المشغل مع خاصية تشغيل الصوت عند النقر
-        var player = videojs('abboud-stream', { 
-            fluid: true
-        });
-
-        // هذا الجزء هو المسؤول عن تشغيل الصوت والفيديو معاً عند ضغط زر Play
-        player.on('play', function() {
-            player.muted(false);
-        });
-
-        // العداد
-        let viewers = 220.123;
-        setInterval(() => {
-            viewers += (Math.random() * 0.100) - 0.040;
-            document.getElementById('live-v').innerText = viewers.toFixed(3);
-        }, 3000);
+        setInterval(refresh, 3000); refresh();
     </script>
 </body>
 </html>
+
+
+
